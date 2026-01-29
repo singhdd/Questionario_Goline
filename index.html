@@ -383,12 +383,12 @@
                     </div>
                     <div class="input-row">
                         <div>
-                            <label for="nome">Nome <span class="required">*</span></label>
-                            <input type="text" id="nome" name="nome" required>
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome">
                         </div>
                         <div>
-                            <label for="cognome">Cognome <span class="required">*</span></label>
-                            <input type="text" id="cognome" name="cognome" required>
+                            <label for="cognome">Cognome</label>
+                            <input type="text" id="cognome" name="cognome">
                         </div>
                     </div>
                 </div>
@@ -398,8 +398,8 @@
                         <span class="section-number">2</span>
                         Contatto
                     </div>
-                    <label for="email">E-mail Aziendale <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" required>
+                    <label for="email">E-mail Aziendale</label>
+                    <input type="email" id="email" name="email">
                 </div>
 
                 <div class="form-section">
@@ -407,7 +407,7 @@
                         <span class="section-number">3</span>
                         Reparti di Competenza
                     </div>
-                    <label>Seleziona i reparti di cui sei responsabile <span class="required">*</span></label>
+                    <label>Seleziona i reparti di cui sei responsabile</label>
                     <p class="helper-text">Puoi selezionare più reparti</p>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
@@ -438,28 +438,28 @@
                         <span class="section-number">4</span>
                         Report Più Utilizzati
                     </div>
-                    <label>Indica i nomi dei 5 report più utilizzati dai tuoi reparti <span class="required">*</span></label>
+                    <label>Indica i nomi dei 5 report più utilizzati dai tuoi reparti</label>
                     <p class="helper-text">Elenca i report in ordine di importanza o frequenza d'uso</p>
                     <div class="report-inputs">
                         <div class="report-input-wrapper">
                             <span class="report-number">#1</span>
-                            <input type="text" id="report1" name="report1" class="report-input" placeholder="Nome del report più importante" required>
+                            <input type="text" id="report1" name="report1" class="report-input" placeholder="Nome del report più importante">
                         </div>
                         <div class="report-input-wrapper">
                             <span class="report-number">#2</span>
-                            <input type="text" id="report2" name="report2" class="report-input" placeholder="Nome del secondo report" required>
+                            <input type="text" id="report2" name="report2" class="report-input" placeholder="Nome del secondo report">
                         </div>
                         <div class="report-input-wrapper">
                             <span class="report-number">#3</span>
-                            <input type="text" id="report3" name="report3" class="report-input" placeholder="Nome del terzo report" required>
+                            <input type="text" id="report3" name="report3" class="report-input" placeholder="Nome del terzo report">
                         </div>
                         <div class="report-input-wrapper">
                             <span class="report-number">#4</span>
-                            <input type="text" id="report4" name="report4" class="report-input" placeholder="Nome del quarto report" required>
+                            <input type="text" id="report4" name="report4" class="report-input" placeholder="Nome del quarto report">
                         </div>
                         <div class="report-input-wrapper">
                             <span class="report-number">#5</span>
-                            <input type="text" id="report5" name="report5" class="report-input" placeholder="Nome del quinto report" required>
+                            <input type="text" id="report5" name="report5" class="report-input" placeholder="Nome del quinto report">
                         </div>
                     </div>
                 </div>
@@ -484,12 +484,8 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // Validate at least one department is selected
+            // Collect selected departments (can be empty)
             const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
-            if (checkboxes.length === 0) {
-                alert('Per favore, seleziona almeno un reparto.');
-                return;
-            }
 
             // Collect form data
             const formData = {
