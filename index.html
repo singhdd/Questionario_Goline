@@ -3,1017 +3,457 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionario Report QlikView - Goline IT Services</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>Questionario Report QlikView → Power BI | Goline IT Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --goline-teal: #0d95a8;
-            --goline-dark: #2c3e50;
-            --goline-light: #f8fafb;
-            --goline-accent: #00b4cc;
-            --error-color: #ef4444;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --shadow-subtle: 0 2px 8px rgba(13, 149, 168, 0.08);
-            --shadow-medium: 0 8px 24px rgba(13, 149, 168, 0.12);
-            --shadow-strong: 0 16px 48px rgba(13, 149, 168, 0.18);
+            --goline-teal:    #0d95a8;
+            --goline-accent:  #00b4cc;
+            --goline-dark:    #1e293b;
+            --goline-light:   #f8fafc;
+            --error:          #ef4444;
+            --success:        #10b981;
+            --warning:        #f59e0b;
+            --gray:           #64748b;
+            --border:         #e2e8f0;
+            --shadow-sm:      0 2px 8px rgba(13,149,168,0.08);
+            --shadow-md:      0 8px 24px rgba(13,149,168,0.12);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f8fafb 0%, #e8f4f6 100%);
+            font-family: 'Outfit', system-ui, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e8f4f6 100%);
             color: var(--goline-dark);
             min-height: 100vh;
             padding: 2rem 1rem;
-            position: relative;
-            overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(13, 149, 168, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
+        .container { max-width: 820px; margin: 0 auto; position: relative; z-index: 1; }
 
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -30%;
-            left: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 180, 204, 0.06) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 780px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
-            animation: fadeInDown 0.8s ease;
-        }
-
+        header { text-align: center; margin-bottom: 3rem; }
         .logo-container {
             background: white;
-            padding: 2rem;
+            padding: 1.8rem 2.5rem;
             border-radius: 16px;
-            box-shadow: var(--shadow-medium);
-            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
             display: inline-block;
+            margin-bottom: 1.5rem;
         }
+        .logo { font-size: 3.2rem; font-weight: 700; color: var(--goline-teal); letter-spacing: -0.02em; }
+        h1 { font-size: 2.1rem; margin: 0.8rem 0 0.4rem; color: var(--goline-teal); }
+        .subtitle { color: var(--gray); font-size: 1.1rem; max-width: 580px; margin: 0 auto; }
 
-        .logo {
-            max-width: 280px;
-            height: auto;
-            display: block;
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--goline-teal);
-            margin-bottom: 0.75rem;
-            letter-spacing: -0.02em;
-        }
-
-        .subtitle {
-            font-size: 1.1rem;
-            color: #64748b;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-medium);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e2e8f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 0.75rem;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--goline-teal), var(--goline-accent));
-            border-radius: 10px;
-            transition: width 0.4s ease;
-            width: 0%;
-        }
-
-        .progress-text {
-            font-size: 0.9rem;
-            color: #64748b;
-            text-align: center;
-        }
-
-        .form-card {
+        .card {
             background: white;
             border-radius: 20px;
-            padding: 3rem;
-            box-shadow: var(--shadow-strong);
-            animation: fadeInUp 0.8s ease 0.2s backwards;
+            padding: 2.8rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 2rem;
         }
-
-        .form-section {
-            margin-bottom: 3rem;
-            opacity: 0;
-            animation: slideIn 0.6s ease forwards;
-        }
-
-        .form-section:nth-child(1) { animation-delay: 0.3s; }
-        .form-section:nth-child(2) { animation-delay: 0.4s; }
-        .form-section:nth-child(3) { animation-delay: 0.5s; }
-        .form-section:nth-child(4) { animation-delay: 0.6s; }
-        .form-section:nth-child(5) { animation-delay: 0.7s; }
-        .form-section:nth-child(6) { animation-delay: 0.8s; }
 
         .section-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
+            font-size: 0.95rem;
+            font-weight: 700;
             color: var(--goline-teal);
-            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 1.2rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
         }
-
         .section-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
+            width: 28px; height: 28px;
             background: var(--goline-teal);
             color: white;
             border-radius: 50%;
-            font-size: 0.75rem;
+            font-size: 0.9rem;
             font-weight: 700;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.6rem;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-left: 0.5rem;
-        }
-
-        .badge-required {
-            background: rgba(239, 68, 68, 0.1);
-            color: var(--error-color);
-        }
-
-        .badge-optional {
-            background: rgba(100, 116, 139, 0.1);
-            color: #64748b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         label {
             display: block;
-            font-size: 1.1rem;
             font-weight: 500;
-            color: var(--goline-dark);
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.6rem;
+            color: #334155;
         }
-
-        .required {
-            color: var(--error-color);
-            margin-left: 0.25rem;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
+        .required::after { content:"*"; color:var(--error); margin-left:0.3rem; }
 
         input[type="text"],
         input[type="email"],
         textarea {
             width: 100%;
-            padding: 1rem 1.25rem;
-            font-size: 1.05rem;
-            font-family: 'Outfit', sans-serif;
-            border: 2px solid #e2e8f0;
+            padding: 0.95rem 1.3rem;
+            border: 2px solid var(--border);
             border-radius: 10px;
-            transition: all 0.3s ease;
-            background: #fafbfc;
+            font-size: 1.05rem;
+            background: #fdfefe;
+            transition: all 0.2s ease;
         }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus,
-        textarea:focus {
+        input:focus, textarea:focus {
             outline: none;
             border-color: var(--goline-teal);
+            box-shadow: 0 0 0 4px rgba(13,149,168,0.12);
             background: white;
-            box-shadow: 0 0 0 4px rgba(13, 149, 168, 0.1);
-            transform: translateY(-1px);
         }
-
-        input.error,
-        textarea.error {
-            border-color: var(--error-color);
-        }
-
-        input.error:focus,
-        textarea.error:focus {
-            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
-        }
-
+        input.error, textarea.error { border-color: var(--error); }
         .error-message {
-            color: var(--error-color);
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
+            color: var(--error);
+            font-size: 0.9rem;
+            margin-top: 0.4rem;
             display: none;
         }
-
-        .error-message.show {
-            display: block;
-            animation: shake 0.3s ease;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
+        .error-message.show { display: block; }
 
         .checkbox-group {
             display: grid;
-            gap: 1rem;
-            margin-top: 0.5rem;
+            gap: 0.9rem;
+            margin-top: 0.8rem;
         }
-
         .checkbox-item {
             display: flex;
             align-items: center;
-            padding: 1.125rem 1.25rem;
-            background: #fafbfc;
-            border: 2px solid #e2e8f0;
+            padding: 1rem 1.3rem;
+            background: #f9fafb;
+            border: 2px solid var(--border);
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: all 0.2s ease;
         }
-
-        .checkbox-item:hover {
-            border-color: var(--goline-teal);
-            background: white;
-            transform: translateX(4px);
-        }
-
+        .checkbox-item:hover { border-color: var(--goline-teal); background: white; }
         .checkbox-item.checked {
             border-color: var(--goline-teal);
-            background: rgba(13, 149, 168, 0.05);
+            background: rgba(13,149,168,0.04);
         }
-
         .checkbox-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+            width: 22px; height: 22px;
             margin-right: 1rem;
-            cursor: pointer;
             accent-color: var(--goline-teal);
         }
+        .checkbox-item label { margin:0; cursor:pointer; font-weight:500; }
 
-        .checkbox-item label {
-            margin: 0;
-            cursor: pointer;
-            flex: 1;
-            font-weight: 500;
-            font-size: 1.05rem;
-        }
-
-        .checkbox-item input[type="checkbox"]:checked + label {
-            color: var(--goline-teal);
-            font-weight: 600;
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            margin-left: 0.5rem;
-        }
-
-        .tooltip-icon {
-            width: 18px;
-            height: 18px;
-            background: var(--goline-accent);
-            color: white;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: help;
-        }
-
-        .tooltip-text {
-            visibility: hidden;
-            width: 220px;
-            background: var(--goline-dark);
-            color: white;
-            text-align: center;
-            border-radius: 8px;
-            padding: 0.75rem;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -110px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
-
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .report-inputs {
-            display: grid;
-            gap: 1.25rem;
-            margin-top: 0.5rem;
-        }
-
-        .report-input-wrapper {
+        .report-inputs { display: grid; gap: 1.1rem; margin-top: 1rem; }
+        .report-row {
             display: flex;
             align-items: center;
             gap: 1rem;
-            position: relative;
         }
-
         .report-number {
-            flex-shrink: 0;
-            width: 36px;
-            height: 36px;
+            flex: 0 0 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--goline-teal), var(--goline-accent));
             color: white;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
-        }
-
-        .report-input {
-            flex: 1;
         }
 
         .report-counter {
-            background: rgba(13, 149, 168, 0.1);
-            padding: 0.75rem 1.25rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
             text-align: center;
+            padding: 0.8rem;
+            border-radius: 10px;
             font-weight: 600;
-            color: var(--goline-teal);
+            margin: 0.8rem 0 1.2rem;
         }
+        .report-counter.good  { background: rgba(16,185,129,0.1); color: var(--success); }
+        .report-counter.medium{ background: rgba(245,158,11,0.1); color: var(--warning); }
 
-        .submit-section {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 2px solid #e2e8f0;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
+        .submit-area {
+            margin-top: 2.5rem;
+            text-align: center;
         }
-
-        button[type="submit"],
-        .draft-button,
-        .preview-button {
-            padding: 1rem 2.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            font-family: 'Outfit', sans-serif;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button[type="submit"] {
+        button.primary {
             background: linear-gradient(135deg, var(--goline-teal), var(--goline-accent));
             color: white;
-            flex: 1;
-            min-width: 200px;
+            border: none;
+            padding: 1.1rem 2.8rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            min-width: 240px;
         }
+        button.primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        button.primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        button[type="submit"]:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
-
-        button[type="submit"]:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .draft-button {
-            background: white;
-            color: var(--goline-teal);
-            border: 2px solid var(--goline-teal);
-        }
-
-        .draft-button:hover {
-            background: var(--goline-light);
-        }
-
-        .preview-button {
-            background: #f1f5f9;
-            color: var(--goline-dark);
-            border: 2px solid #e2e8f0;
-        }
-
-        .preview-button:hover {
-            background: #e2e8f0;
-        }
-
-        .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 18px; height: 18px;
+            margin-left: 10px;
+            border: 3px solid rgba(255,255,255,0.4);
             border-top-color: white;
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-left: 0.5rem;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
         }
 
-        button[type="submit"].loading .loading-spinner {
-            display: inline-block;
-        }
-
-        .success-message {
+        .success-screen {
             display: none;
             text-align: center;
-            padding: 3rem;
+            padding: 4rem 1.5rem;
             background: white;
             border-radius: 20px;
-            box-shadow: var(--shadow-strong);
-            animation: fadeInUp 0.8s ease;
+            box-shadow: var(--shadow-md);
         }
+        .success-screen h2 { color: var(--success); font-size: 2.2rem; margin-bottom: 1rem; }
 
-        .success-message h2 {
-            color: var(--success-color);
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .success-message p {
-            font-size: 1.1rem;
-            opacity: 0.95;
-            color: #64748b;
-        }
-
-        .helper-text {
-            font-size: 0.95rem;
-            color: #64748b;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-
-        .draft-saved {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--success-color);
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: var(--shadow-medium);
-            display: none;
-            animation: slideInRight 0.4s ease;
-            z-index: 1000;
-        }
-
-        .draft-saved.show {
-            display: block;
-        }
-
-        /* Preview Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content {
-            background: white;
-            margin: 5% auto;
-            padding: 2.5rem;
-            border-radius: 20px;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-strong);
-            animation: fadeInUp 0.4s ease;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        .modal-header h2 {
-            color: var(--goline-teal);
-            font-size: 1.5rem;
-        }
-
-        .close-modal {
-            font-size: 2rem;
-            font-weight: 300;
-            color: #64748b;
-            cursor: pointer;
-            border: none;
-            background: none;
-            padding: 0;
-            line-height: 1;
-        }
-
-        .close-modal:hover {
-            color: var(--goline-dark);
-        }
-
-        .preview-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .preview-section h3 {
-            color: var(--goline-teal);
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .preview-section p {
-            color: var(--goline-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .preview-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .preview-list li {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .preview-list li:last-child {
-            border-bottom: none;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         @media (max-width: 640px) {
-            .form-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .input-row {
-                grid-template-columns: 1fr;
-            }
-
-            h1 {
-                font-size: 1.5rem;
-            }
-
-            .logo {
-                max-width: 220px;
-            }
-
-            .submit-section {
-                flex-direction: column;
-            }
-
-            button[type="submit"],
-            .draft-button,
-            .preview-button {
-                width: 100%;
-            }
-
-            .modal-content {
-                margin: 10% 1rem;
-                padding: 1.5rem;
-            }
-
-            .draft-saved {
-                left: 1rem;
-                right: 1rem;
-                bottom: 1rem;
-            }
+            .card { padding: 2rem 1.4rem; }
+            h1 { font-size: 1.7rem; }
+            .logo { font-size: 2.6rem; }
+            button.primary { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-container">
-                <h1 style="color: var(--goline-teal); font-size: 2.5rem; margin: 0;">goline</h1>
-                <p style="color: var(--goline-dark); font-size: 1.25rem; margin-top: 0.5rem; font-weight: 400;">IT Services</p>
+
+<div class="container">
+    <header>
+        <div class="logo-container">
+            <div class="logo">goline</div>
+            <p style="color:var(--gray); font-size:1.1rem; margin-top:0.3rem;">IT Services</p>
+        </div>
+        <h1>Questionario Report QlikView</h1>
+        <p class="subtitle">Indicaci i 5 report più importanti per il tuo reparto<br>che verranno prioritizzati nella migrazione a Power BI</p>
+    </header>
+
+    <div class="card" id="formContainer">
+        <form id="questionarioForm" novalidate>
+
+            <!-- 1. Dati personali -->
+            <div class="section-title"><span class="section-number">1</span> Chi sei</div>
+            <div style="display:grid; gap:1.4rem; grid-template-columns:1fr 1fr;">
+                <div>
+                    <label class="required">Nome</label>
+                    <input type="text" id="nome" required>
+                    <div class="error-message" id="err-nome">Campo obbligatorio</div>
+                </div>
+                <div>
+                    <label class="required">Cognome</label>
+                    <input type="text" id="cognome" required>
+                    <div class="error-message" id="err-cognome">Campo obbligatorio</div>
+                </div>
             </div>
-            <h1>Questionario Report QlikView per Reparto</h1>
-            <p class="subtitle">Aiutaci a identificare i 5 report QlikView più utilizzati e importanti nel tuo reparto, che verranno successivamente migrati su Power BI</p>
-        </div>
 
-        <div class="form-card" id="formCard">
-            <form id="reportForm">
-                <div class="form-section" data-section="1">
-                    <div class="section-title">
-                        <span class="section-number">1</span>
-                        Informazioni Personali
-                    </div>
-                    <div class="input-row">
-                        <div class="input-wrapper">
-                            <label for="nome">Nome</label>
-                            <input type="text" id="nome" name="nome">
-                            <div class="error-message" id="error-nome">Il nome è obbligatorio</div>
-                        </div>
-                        <div class="input-wrapper">
-                            <label for="cognome">Cognome</label>
-                            <input type="text" id="cognome" name="cognome">
-                            <div class="error-message" id="error-cognome">Il cognome è obbligatorio</div>
-                        </div>
-                    </div>
+            <!-- 2. Email -->
+            <div style="margin-top:2.2rem;">
+                <div class="section-title"><span class="section-number">2</span> Contatto</div>
+                <label class="required">Email aziendale</label>
+                <input type="email" id="email" required>
+                <div class="error-message" id="err-email">Email non valida</div>
+            </div>
+
+            <!-- 3. Reparti -->
+            <div style="margin-top:2.5rem;">
+                <div class="section-title"><span class="section-number">3</span> Reparti di competenza</div>
+                <p style="color:var(--gray); margin-bottom:1rem;">Seleziona tutti i reparti in cui operi o per cui sei responsabile</p>
+                <div class="checkbox-group" id="reparti">
+                    <div class="checkbox-item"><input type="checkbox" value="Dispo BAG" id="rb1"><label for="rb1">Dispo BAG</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Dispo PF" id="rb2"><label for="rb2">Dispo PF</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Management di Qualità" id="rb3"><label for="rb3">Management di Qualità</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Acquisti/Vendite" id="rb4"><label for="rb4">Acquisti/Vendite</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Direzione" id="rb5"><label for="rb5">Direzione</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Logistica" id="rb6"><label for="rb6">Logistica</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Trasporti" id="rb7"><label for="rb7">Trasporti</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Controllo entrata merci" id="rb8"><label for="rb8">Controllo entrata merci</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Amministrazione" id="rb9"><label for="rb9">Amministrazione</label></div>
+                    <div class="checkbox-item"><input type="checkbox" value="Altro" id="rb-altro"><label for="rb-altro">Altro</label></div>
                 </div>
+                <div class="error-message" id="err-reparti" style="margin-top:0.8rem;">Seleziona almeno un reparto</div>
 
-                <div class="form-section" data-section="2">
-                    <div class="section-title">
-                        <span class="section-number">2</span>
-                        Contatto
-                    </div>
-                    <div class="input-wrapper">
-                        <label for="email">E-mail Aziendale</label>
-                        <input type="email" id="email" name="email">
-                        <div class="error-message" id="error-email">Inserisci un indirizzo email valido</div>
-                    </div>
+                <div id="altro-wrapper" style="margin-top:1.2rem; display:none;">
+                    <label>Specifica altro reparto</label>
+                    <input type="text" id="altro-reparto">
                 </div>
+            </div>
 
-                <div class="form-section" data-section="3">
-                    <div class="section-title">
-                        <span class="section-number">3</span>
-                        Reparti di Competenza
-                    </div>
-                    <label>Seleziona i reparti di cui sei responsabile o in cui lavori</label>
-                    <p class="helper-text">Puoi selezionare più reparti se fai parte di più team</p>
-                    <div class="checkbox-group" id="repartiGroup">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="dispo-bag" name="reparti" value="Dispo BAG">
-                            <label for="dispo-bag">Dispo BAG</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="dispo-pf" name="reparti" value="Dispo PF">
-                            <label for="dispo-pf">Dispo PF</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="management-qualita" name="reparti" value="Management di Qualità">
-                            <label for="management-qualita">Management di Qualità</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="acquisti-vendite" name="reparti" value="Acquisti/Vendite">
-                            <label for="acquisti-vendite">Acquisti/Vendite</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="direzione" name="reparti" value="Direzione">
-                            <label for="direzione">Direzione</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="logistica" name="reparti" value="Logistica">
-                            <label for="logistica">Logistica</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="trasporti" name="reparti" value="Trasporti">
-                            <label for="trasporti">Trasporti</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="controllo-merci" name="reparti" value="Controllo entrata merci">
-                            <label for="controllo-merci">Controllo entrata merci</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="amministrazione" name="reparti" value="Amministrazione">
-                            <label for="amministrazione">Amministrazione</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="altro-reparto" name="reparti" value="Altro">
-                            <label for="altro-reparto">Altro (specificare sotto)</label>
-                        </div>
-                    </div>
-                    <div class="error-message" id="error-reparti">Seleziona almeno un reparto</div>
-                    
-                    <div class="input-wrapper" style="margin-top: 1rem; display: none;" id="altroRepartoWrapper">
-                        <label for="altro-reparto-text">Specifica altro reparto</label>
-                        <input type="text" id="altro-reparto-text" name="altro-reparto-text" placeholder="Inserisci il nome del reparto">
-                    </div>
+            <!-- 4. Report -->
+            <div style="margin-top:2.8rem;">
+                <div class="section-title"><span class="section-number">4</span> Top report QlikView</div>
+                <p style="color:var(--gray); margin-bottom:1rem;">Indica i nomi dei report più utilizzati / strategici (in ordine di priorità)</p>
+
+                <div class="report-counter" id="counter">0 / 5 report inseriti</div>
+
+                <div class="report-inputs">
+                    <div class="report-row"><div class="report-number">1</div><input type="text" id="r1" placeholder="Report più importante…"></div>
+                    <div class="report-row"><div class="report-number">2</div><input type="text" id="r2" placeholder="Secondo report…"></div>
+                    <div class="report-row"><div class="report-number">3</div><input type="text" id="r3" placeholder="Terzo report…"></div>
+                    <div class="report-row"><div class="report-number">4</div><input type="text" id="r4" placeholder="Quarto report…"></div>
+                    <div class="report-row"><div class="report-number">5</div><input type="text" id="r5" placeholder="Quinto report…"></div>
                 </div>
+                <div class="error-message" id="err-report">Inserisci almeno un report</div>
+            </div>
 
-                <div class="form-section" data-section="4">
-                    <div class="section-title">
-                        <span class="section-number">4</span>
-                        Top 5 Report QlikView
-                        <div class="tooltip">
-                            <span class="tooltip-icon">?</span>
-                            <span class="tooltip-text">Indica i report che utilizzi più frequentemente o che sono critici per le tue attività quotidiane</span>
-                        </div>
-                    </div>
-                    <label>Indica i nomi dei 5 report QlikView più utilizzati e importanti del tuo reparto</label>
-                    <p class="helper-text">Questi report verranno prioritizzati per la migrazione su Power BI. Elencali in ordine di importanza o frequenza d'uso</p>
-                    
-                    <div class="report-counter" id="reportCounter">
-                        <span id="reportCount">0</span> / 5 report inseriti
-                    </div>
+            <!-- 5. Note -->
+            <div style="margin-top:2.8rem;">
+                <div class="section-title"><span class="section-number">5</span> Note aggiuntive</div>
+                <textarea id="note" rows="5" placeholder="Eventuali commenti, urgenze, problemi noti, richieste particolari…"></textarea>
+            </div>
 
-                    <div class="report-inputs">
-                        <div class="report-input-wrapper">
-                            <span class="report-number">#1</span>
-                            <input type="text" id="report1" name="report1" class="report-input" placeholder="Nome del report QlikView più importante">
-                        </div>
-                        <div class="report-input-wrapper">
-                            <span class="report-number">#2</span>
-                            <input type="text" id="report2" name="report2" class="report-input" placeholder="Nome del secondo report QlikView">
-                        </div>
-                        <div class="report-input-wrapper">
-                            <span class="report-number">#3</span>
-                            <input type="text" id="report3" name="report3" class="report-input" placeholder="Nome del terzo report QlikView">
-                        </div>
-                        <div class="report-input-wrapper">
-                            <span class="report-number">#4</span>
-                            <input type="text" id="report4" name="report4" class="report-input" placeholder="Nome del quarto report QlikView">
-                        </div>
-                        <div class="report-input-wrapper">
-                            <span class="report-number">#5</span>
-                            <input type="text" id="report5" name="report5" class="report-input" placeholder="Nome del quinto report QlikView">
-                        </div>
-                    </div>
-                    <div class="error-message" id="error-reports">Inserisci almeno il primo report</div>
-                </div>
+            <div class="submit-area">
+                <button type="submit" class="primary" id="btnSubmit">Invia Questionario</button>
+            </div>
 
-                <div class="form-section" data-section="5">
-                    <div class="section-title">
-                        <span class="section-number">5</span>
-                        Note Aggiuntive
-                    </div>
-                    <label for="note">Commenti o informazioni aggiuntive</label>
-                    <p class="helper-text">Qualsiasi altra informazione utile riguardo ai report o alle tue esigenze</p>
-                    <textarea id="note" name="note" placeholder="Inserisci eventuali note, richieste specifiche o problematiche che riscontri con i report attuali..."></textarea>
-                </div>
-
-                <div class="submit-section">
-                    <button type="submit">
-                        Invia Questionario
-                        <span class="loading-spinner"></span>
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="success-message" id="successMessage">
-            <h2>✓ Questionario Inviato con Successo!</h2>
-            <p>Grazie per aver completato il questionario. Le tue risposte sono state registrate correttamente.</p>
-        </div>
+        </form>
     </div>
 
-    <script>
-        const form = document.getElementById('reportForm');
-        const formCard = document.getElementById('formCard');
-        const successMessage = document.getElementById('successMessage');
-        const reportCounter = document.getElementById('reportCount');
-        const altroRepartoCheckbox = document.getElementById('altro-reparto');
-        const altroRepartoWrapper = document.getElementById('altroRepartoWrapper');
+    <div class="success-screen" id="successScreen">
+        <h2>✓ Inviato con successo!</h2>
+        <p style="margin:1.5rem 0; color:var(--gray); font-size:1.1rem;">
+            Grazie per la tua collaborazione.<br>
+            Le informazioni che hai fornito saranno molto utili per pianificare la migrazione.
+        </p>
+    </div>
+</div>
 
-        // Initialize report counter on page load
-        window.addEventListener('load', function() {
-            updateReportCounter();
-        });
+<script>
+const form          = document.getElementById('questionarioForm');
+const btnSubmit     = document.getElementById('btnSubmit');
+const successScreen = document.getElementById('successScreen');
+const formContainer = document.getElementById('formContainer');
+const counterEl     = document.getElementById('counter');
 
-        // Update report counter on input
-        const formInputs = form.querySelectorAll('input, textarea');
-        formInputs.forEach(input => {
-            input.addEventListener('input', function() {
-                if (input.classList.contains('report-input')) {
-                    updateReportCounter();
-                }
-                // Remove error styling on input
-                input.classList.remove('error');
-                const errorMsg = document.getElementById('error-' + input.name);
-                if (errorMsg) {
-                    errorMsg.classList.remove('show');
-                }
-            });
-        });
+const altroChk      = document.getElementById('rb-altro');
+const altroWrapper  = document.getElementById('altro-wrapper');
 
-        // Handle "Altro reparto" checkbox
-        altroRepartoCheckbox.addEventListener('change', function() {
-            if (this.checked) {
-                altroRepartoWrapper.style.display = 'block';
-            } else {
-                altroRepartoWrapper.style.display = 'none';
-                document.getElementById('altro-reparto-text').value = '';
-            }
-        });
+// Mostra/nasconde campo Altro
+altroChk.addEventListener('change', () => {
+    altroWrapper.style.display = altroChk.checked ? 'block' : 'none';
+    if (!altroChk.checked) document.getElementById('altro-reparto').value = '';
+});
 
-        // Add checked class to checkbox items
-        document.querySelectorAll('.checkbox-item').forEach(item => {
-            const checkbox = item.querySelector('input[type="checkbox"]');
-            
-            checkbox.addEventListener('change', function() {
-                if (this.checked) {
-                    item.classList.add('checked');
-                } else {
-                    item.classList.remove('checked');
-                }
-            });
+// Aggiorna contatore report
+function updateCounter() {
+    let count = 0;
+    for (let i=1; i<=5; i++) {
+        if (document.getElementById('r'+i).value.trim()) count++;
+    }
+    counterEl.textContent = count + ' / 5 report inseriti';
+    counterEl.className = 'report-counter ' + (count >= 3 ? 'good' : count >= 1 ? 'medium' : '');
+}
+document.querySelectorAll('#r1,#r2,#r3,#r4,#r5').forEach(el => el.addEventListener('input', updateCounter));
+updateCounter();
 
-            item.addEventListener('click', function(e) {
-                if (e.target.tagName !== 'INPUT') {
-                    checkbox.checked = !checkbox.checked;
-                    checkbox.dispatchEvent(new Event('change'));
-                }
-            });
-        });
+// Validazione semplice
+function validate() {
+    let valid = true;
+    const clearErr = id => document.getElementById(id)?.classList.remove('show');
 
-        function updateReportCounter() {
-            let count = 0;
-            for (let i = 1; i <= 5; i++) {
-                if (document.getElementById('report' + i).value.trim()) {
-                    count++;
-                }
-            }
-            reportCounter.textContent = count;
+    // Nome, Cognome, Email
+    ['nome','cognome','email'].forEach(f => {
+        const field = document.getElementById(f);
+        const err   = document.getElementById('err-'+f);
+        if (!field.value.trim()) {
+            field.classList.add('error');
+            err?.classList.add('show');
+            valid = false;
+        } else {
+            field.classList.remove('error');
+            clearErr('err-'+f);
         }
+    });
 
-        function validateForm() {
-            // Nessuna validazione obbligatoria - tutto è opzionale
-            return true;
-        }
+    // Email format
+    const email = document.getElementById('email');
+    if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+        email.classList.add('error');
+        document.getElementById('err-email').classList.add('show');
+        valid = false;
+    }
 
-        function showError(input, errorId) {
-            input.classList.add('error');
-            document.getElementById(errorId).classList.add('show');
-            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+    // Almeno un reparto
+    const repartiChecked = document.querySelectorAll('#reparti input:checked').length;
+    if (repartiChecked === 0) {
+        document.getElementById('err-reparti').classList.add('show');
+        valid = false;
+    } else {
+        document.getElementById('err-reparti').classList.remove('show');
+    }
 
-        function getFormData() {
-            const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
-            return {
-                nome: document.getElementById('nome').value,
-                cognome: document.getElementById('cognome').value,
-                email: document.getElementById('email').value,
-                reparti: Array.from(checkboxes).map(cb => cb.value),
-                altroReparto: document.getElementById('altro-reparto-text').value,
-                reports: [
-                    document.getElementById('report1').value,
-                    document.getElementById('report2').value,
-                    document.getElementById('report3').value,
-                    document.getElementById('report4').value,
-                    document.getElementById('report5').value
-                ],
-                note: document.getElementById('note').value,
-                timestamp: new Date().toISOString()
-            };
-        }
+    // Almeno un report
+    let reportCount = 0;
+    for (let i=1; i<=5; i++) {
+        if (document.getElementById('r'+i).value.trim()) reportCount++;
+    }
+    if (reportCount === 0) {
+        document.getElementById('err-report').classList.add('show');
+        valid = false;
+    } else {
+        document.getElementById('err-report').classList.remove('show');
+    }
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+    if (!valid) {
+        form.querySelector('.error, .error-message.show')?.scrollIntoView({behavior:'smooth', block:'center'});
+    }
 
-            if (!validateForm()) {
-                return;
-            }
+    return valid;
+}
 
-            const submitBtn = form.querySelector('button[type="submit"]');
-            submitBtn.classList.add('loading');
-            submitBtn.disabled = true;
+form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) return;
 
-            const formData = getFormData();
+    btnSubmit.disabled = true;
+    btnSubmit.classList.add('loading');
+    btnSubmit.textContent = 'Invio in corso…';
 
-            // Send to Google Sheets
-            fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            }).catch(error => console.log('Dati inviati a Google Sheets'));
+    const data = {
+        nome:       document.getElementById('nome').value.trim(),
+        cognome:    document.getElementById('cognome').value.trim(),
+        email:      document.getElementById('email').value.trim(),
+        reparti:    Array.from(document.querySelectorAll('#reparti input:checked')).map(cb => cb.value),
+        altroReparto: altroChk.checked ? document.getElementById('altro-reparto').value.trim() : '',
+        reports:    [
+            document.getElementById('r1').value.trim(),
+            document.getElementById('r2').value.trim(),
+            document.getElementById('r3').value.trim(),
+            document.getElementById('r4').value.trim(),
+            document.getElementById('r5').value.trim()
+        ].filter(Boolean),
+        note:       document.getElementById('note').value.trim()
+    };
 
-            // Show success message after delay
-            setTimeout(() => {
-                formCard.style.display = 'none';
-                successMessage.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 1500);
+    try {
+        const res = await fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data),
+            redirect: 'follow'
         });
-    </script>
+
+        if (!res.ok) throw new Error('Risposta non valida');
+
+        const result = await res.json();
+
+        if (result.status === 'success') {
+            formContainer.style.display = 'none';
+            successScreen.style.display = 'block';
+            window.scrollTo({top:0, behavior:'smooth'});
+        } else {
+            alert('Errore durante il salvataggio:\n' + (result.message || 'Risposta non valida'));
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Si è verificato un problema di connessione.\nRiprova più tardi o controlla la tua connessione.');
+    } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.classList.remove('loading');
+        btnSubmit.textContent = 'Invia Questionario';
+    }
+});
+</script>
 </body>
 </html>
