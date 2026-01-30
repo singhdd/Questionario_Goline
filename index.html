@@ -8,13 +8,13 @@ const counterEl     = document.getElementById('counter');
 const altroChk      = document.getElementById('rb-altro');
 const altroWrapper  = document.getElementById('altro-wrapper');
 
-// Mostra/nasconde campo "Altro reparto"
+// Mostra/nasconde "Altro"
 altroChk.addEventListener('change', () => {
     altroWrapper.style.display = altroChk.checked ? 'block' : 'none';
     if (!altroChk.checked) document.getElementById('altro-reparto').value = '';
 });
 
-// Aggiorna contatore report + colore
+// Contatore report
 function updateCounter() {
     let count = 0;
     for (let i = 1; i <= 5; i++) {
@@ -24,145 +24,115 @@ function updateCounter() {
     counterEl.className = 'report-counter ' + 
         (count >= 3 ? 'good' : count >= 1 ? 'medium' : '');
 }
-document.querySelectorAll('#r1,#r2,#r3,#r4,#r5').forEach(el => 
-    el.addEventListener('input', updateCounter)
-);
+document.querySelectorAll('#r1,#r2,#r3,#r4,#r5').forEach(el => el.addEventListener('input', updateCounter));
 updateCounter();
 
-// Rimuovi errore quando l'utente modifica un campo
+// Pulisci errori durante la digitazione
 form.querySelectorAll('input, textarea').forEach(field => {
     field.addEventListener('input', () => {
         field.classList.remove('error');
-        const errId = 'err-' + field.id;
-        if (document.getElementById(errId)) {
-            document.getElementById(errId).classList.remove('show');
-        }
+        const err = document.getElementById('err-' + field.id);
+        if (err) err.classList.remove('show');
     });
 });
 
-// Validazione completa – mostra TUTTI gli errori
-function validateForm() {
-    let isValid = true;
+// Validazione rigorosa
+function validate() {
+    let valid = true;
 
-    // Funzione helper per gestire errore su campo
-    const toggleError = (fieldId, show) => {
-        const field = document.getElementById(fieldId);
-        const err   = document.getElementById('err-' + fieldId);
-        if (field) field.classList.toggle('error', show);
-        if (err)   err.classList.toggle('show', show);
-    };
+    // Nome
+    const nome = document.getElementById('nome').value.trim();
+    document.getElementById('nome').classList.toggle('error', !nome);
+    document.getElementById('err-nome')?.classList.toggle('show', !nome);
+    if (!nome) valid = false;
 
-    // 1. Nome obbligatorio
-    const nomeVal = document.getElementById('nome').value.trim();
-    toggleError('nome', !nomeVal);
+    // Cognome
+    const cognome = document.getElementById('cognome').value.trim();
+    document.getElementById('cognome').classList.toggle('error', !cognome);
+    document.getElementById('err-cognome')?.classList.toggle('show', !cognome);
+    if (!cognome) valid = false;
 
-    // 2. Cognome obbligatorio
-    const cognomeVal = document.getElementById('cognome').value.trim();
-    toggleError('cognome', !cognomeVal);
+    // Email
+    const emailVal = document.getElementById('email').value.trim();
+    let emailOk = emailVal && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
+    document.getElementById('email').classList.toggle('error', !emailOk);
+    document.getElementById('err-email')?.classList.toggle('show', !emailOk);
+    if (!emailOk) valid = false;
 
-    // 3. Email obbligatoria e valida
-    const emailField = document.getElementById('email');
-    const emailVal = emailField.value.trim();
-    let emailError = false;
-    if (!emailVal) {
-        emailError = true;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        emailError = true;
-        document.getElementById('err-email').textContent = "Formato email non valido";
-    } else {
-        document.getElementById('err-email').textContent = "Email non valida";
-    }
-    toggleError('email', emailError);
+    // Almeno un reparto
+    const repartiOk = document.querySelectorAll('#reparti input:checked').length > 0;
+    document.getElementById('err-reparti')?.classList.toggle('show', !repartiOk);
+    if (!repartiOk) valid = false;
 
-    // 4. Almeno un reparto selezionato
-    const repartiChecked = document.querySelectorAll('#reparti input:checked').length;
-    if (repartiChecked === 0) {
-        document.getElementById('err-reparti').classList.add('show');
-        isValid = false;
-    } else {
-        document.getElementById('err-reparti').classList.remove('show');
-    }
-
-    // 5. Almeno un report compilato
+    // Almeno un report
     let reportCount = 0;
     for (let i = 1; i <= 5; i++) {
         if (document.getElementById('r' + i).value.trim()) reportCount++;
     }
-    if (reportCount === 0) {
-        document.getElementById('err-report').textContent = "Inserisci almeno un report importante";
-        document.getElementById('err-report').classList.add('show');
-        isValid = false;
-    } else {
-        document.getElementById('err-report').classList.remove('show');
-    }
+    const reportOk = reportCount >= 1;
+    document.getElementById('err-report')?.classList.toggle('show', !reportOk);
+    document.getElementById('err-report').textContent = reportOk ? "" : "Inserisci almeno un report importante";
+    if (!reportOk) valid = false;
 
-    // Se ci sono errori → scroll al primo campo con errore
-    if (!isValid) {
+    // Scroll al primo errore
+    if (!valid) {
         const firstError = form.querySelector('.error, .error-message.show');
-        if (firstError) {
-            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        if (firstError) firstError.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
 
-    return isValid && !emailError && nomeVal && cognomeVal;
+    return valid;
 }
 
-// Gestione invio form
-form.addEventListener('submit', async function(e) {
+// Submit bloccato se non valido
+form.addEventListener('submit', async e => {
     e.preventDefault();
 
-    // Controllo finale: se non valido → blocca invio
-    if (!validateForm()) {
-        return;  // ← qui NON invia nulla
+    if (!validate()) {
+        return;   // ← BLOCCA l'invio
     }
 
-    // Disabilita pulsante e mostra caricamento
     btnSubmit.disabled = true;
     btnSubmit.classList.add('loading');
     btnSubmit.textContent = 'Invio in corso…';
 
-    // Raccolta dati
     const data = {
-        nome:       document.getElementById('nome').value.trim(),
-        cognome:    document.getElementById('cognome').value.trim(),
-        email:      document.getElementById('email').value.trim(),
-        reparti:    Array.from(document.querySelectorAll('#reparti input:checked'))
-                        .map(cb => cb.value),
+        nome: document.getElementById('nome').value.trim(),
+        cognome: document.getElementById('cognome').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        reparti: Array.from(document.querySelectorAll('#reparti input:checked')).map(cb => cb.value),
         altroReparto: altroChk.checked ? document.getElementById('altro-reparto').value.trim() : '',
-        reports:    [
+        reports: [
             document.getElementById('r1').value.trim(),
             document.getElementById('r2').value.trim(),
             document.getElementById('r3').value.trim(),
             document.getElementById('r4').value.trim(),
             document.getElementById('r5').value.trim()
-        ].filter(v => v),  // elimina campi vuoti
-        note:       document.getElementById('note').value.trim()
+        ].filter(v => v),
+        note: document.getElementById('note').value.trim()
     };
 
     try {
-        const response = await fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
+        const res = await fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data),
             redirect: 'follow'
         });
 
-        if (!response.ok) {
-            throw new Error(`Errore HTTP: ${response.status}`);
-        }
+        if (!res.ok) throw new Error('Risposta non OK');
 
-        const result = await response.json();
+        const result = await res.json();
 
         if (result.status === 'success') {
             formContainer.style.display = 'none';
             successScreen.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({top: 0, behavior: 'smooth'});
         } else {
-            alert('Errore dal server:\n' + (result.message || 'Risposta non valida'));
+            alert('Errore server: ' + (result.message || 'Risposta non valida'));
         }
     } catch (err) {
-        console.error('Errore invio:', err);
-        alert('Problema di connessione o server.\nRiprova più tardi.');
+        console.error(err);
+        alert('Problema di connessione o server. Riprova.');
     } finally {
         btnSubmit.disabled = false;
         btnSubmit.classList.remove('loading');
