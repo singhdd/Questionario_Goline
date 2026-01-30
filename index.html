@@ -11,6 +11,9 @@
             --goline-dark: #2c3e50;
             --goline-light: #f8fafb;
             --goline-accent: #00b4cc;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
             --shadow-subtle: 0 2px 8px rgba(13, 149, 168, 0.08);
             --shadow-medium: 0 8px 24px rgba(13, 149, 168, 0.12);
             --shadow-strong: 0 16px 48px rgba(13, 149, 168, 0.18);
@@ -101,6 +104,38 @@
             line-height: 1.6;
         }
 
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--goline-teal), var(--goline-accent));
+            border-radius: 10px;
+            transition: width 0.4s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #64748b;
+            text-align: center;
+        }
+
         .form-card {
             background: white;
             border-radius: 20px;
@@ -120,6 +155,7 @@
         .form-section:nth-child(3) { animation-delay: 0.5s; }
         .form-section:nth-child(4) { animation-delay: 0.6s; }
         .form-section:nth-child(5) { animation-delay: 0.7s; }
+        .form-section:nth-child(6) { animation-delay: 0.8s; }
 
         .section-title {
             font-size: 0.85rem;
@@ -146,6 +182,27 @@
             font-weight: 700;
         }
 
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-left: 0.5rem;
+        }
+
+        .badge-required {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+
+        .badge-optional {
+            background: rgba(100, 116, 139, 0.1);
+            color: #64748b;
+        }
+
         label {
             display: block;
             font-size: 1.1rem;
@@ -155,12 +212,17 @@
         }
 
         .required {
-            color: var(--goline-accent);
+            color: var(--error-color);
             margin-left: 0.25rem;
         }
 
+        .input-wrapper {
+            position: relative;
+        }
+
         input[type="text"],
-        input[type="email"] {
+        input[type="email"],
+        textarea {
             width: 100%;
             padding: 1rem 1.25rem;
             font-size: 1.05rem;
@@ -171,13 +233,41 @@
             background: #fafbfc;
         }
 
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
         input[type="text"]:focus,
-        input[type="email"]:focus {
+        input[type="email"]:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--goline-teal);
             background: white;
             box-shadow: 0 0 0 4px rgba(13, 149, 168, 0.1);
             transform: translateY(-1px);
+        }
+
+        input.error,
+        textarea.error {
+            border-color: var(--error-color);
+        }
+
+        input.error:focus,
+        textarea.error:focus {
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.3s ease;
         }
 
         .input-row {
@@ -210,6 +300,11 @@
             transform: translateX(4px);
         }
 
+        .checkbox-item.checked {
+            border-color: var(--goline-teal);
+            background: rgba(13, 149, 168, 0.05);
+        }
+
         .checkbox-item input[type="checkbox"] {
             width: 22px;
             height: 22px;
@@ -228,6 +323,51 @@
 
         .checkbox-item input[type="checkbox"]:checked + label {
             color: var(--goline-teal);
+            font-weight: 600;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        .tooltip-icon {
+            width: 18px;
+            height: 18px;
+            background: var(--goline-accent);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: help;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background: var(--goline-dark);
+            color: white;
+            text-align: center;
+            border-radius: 8px;
+            padding: 0.75rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
 
         .report-inputs {
@@ -237,67 +377,132 @@
         }
 
         .report-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             position: relative;
         }
 
         .report-number {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--goline-teal), var(--goline-accent));
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            color: var(--goline-teal);
-            font-size: 0.9rem;
-            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
         }
 
         .report-input {
-            padding-left: 3rem !important;
+            flex: 1;
+        }
+
+        .report-counter {
+            background: rgba(13, 149, 168, 0.1);
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            color: var(--goline-teal);
         }
 
         .submit-section {
             margin-top: 3rem;
-            text-align: center;
             padding-top: 2rem;
-            border-top: 2px solid #f1f5f9;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
-        button[type="submit"] {
-            background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
-            color: white;
-            font-size: 1.125rem;
+        button[type="submit"],
+        .draft-button,
+        .preview-button {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            padding: 1.125rem 3.5rem;
+            font-family: 'Outfit', sans-serif;
             border: none;
             border-radius: 12px;
             cursor: pointer;
-            font-family: 'Outfit', sans-serif;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(13, 149, 168, 0.3);
-            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--goline-teal), var(--goline-accent));
+            color: white;
+            flex: 1;
+            min-width: 200px;
         }
 
         button[type="submit"]:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(13, 149, 168, 0.4);
+            box-shadow: var(--shadow-medium);
         }
 
         button[type="submit"]:active {
             transform: translateY(0);
         }
 
+        button[type="submit"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .draft-button {
+            background: white;
+            color: var(--goline-teal);
+            border: 2px solid var(--goline-teal);
+        }
+
+        .draft-button:hover {
+            background: var(--goline-light);
+        }
+
+        .preview-button {
+            background: #f1f5f9;
+            color: var(--goline-dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .preview-button:hover {
+            background: #e2e8f0;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-left: 0.5rem;
+        }
+
+        button[type="submit"].loading .loading-spinner {
+            display: inline-block;
+        }
+
         .success-message {
             display: none;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
             text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 20px;
             box-shadow: var(--shadow-strong);
-            animation: fadeInUp 0.6s ease;
+            animation: fadeInUp 0.8s ease;
         }
 
         .success-message h2 {
+            color: var(--success-color);
             font-size: 1.75rem;
             margin-bottom: 0.75rem;
         }
@@ -305,6 +510,7 @@
         .success-message p {
             font-size: 1.1rem;
             opacity: 0.95;
+            color: #64748b;
         }
 
         .helper-text {
@@ -312,6 +518,109 @@
             color: #64748b;
             margin-top: 0.5rem;
             font-style: italic;
+        }
+
+        .draft-saved {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success-color);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-medium);
+            display: none;
+            animation: slideInRight 0.4s ease;
+            z-index: 1000;
+        }
+
+        .draft-saved.show {
+            display: block;
+        }
+
+        /* Preview Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-strong);
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .modal-header h2 {
+            color: var(--goline-teal);
+            font-size: 1.5rem;
+        }
+
+        .close-modal {
+            font-size: 2rem;
+            font-weight: 300;
+            color: #64748b;
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .close-modal:hover {
+            color: var(--goline-dark);
+        }
+
+        .preview-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .preview-section h3 {
+            color: var(--goline-teal);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .preview-section p {
+            color: var(--goline-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .preview-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .preview-list li:last-child {
+            border-bottom: none;
         }
 
         @keyframes fadeInDown {
@@ -347,6 +656,29 @@
             }
         }
 
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
         @media (max-width: 640px) {
             .form-card {
                 padding: 2rem 1.5rem;
@@ -362,6 +694,27 @@
 
             .logo {
                 max-width: 220px;
+            }
+
+            .submit-section {
+                flex-direction: column;
+            }
+
+            button[type="submit"],
+            .draft-button,
+            .preview-button {
+                width: 100%;
+            }
+
+            .modal-content {
+                margin: 10% 1rem;
+                padding: 1.5rem;
+            }
+
+            .draft-saved {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
             }
         }
     </style>
@@ -379,40 +732,45 @@
 
         <div class="form-card" id="formCard">
             <form id="reportForm">
-                <div class="form-section">
+                <div class="form-section" data-section="1">
                     <div class="section-title">
                         <span class="section-number">1</span>
                         Informazioni Personali
                     </div>
                     <div class="input-row">
-                        <div>
+                        <div class="input-wrapper">
                             <label for="nome">Nome</label>
                             <input type="text" id="nome" name="nome">
+                            <div class="error-message" id="error-nome">Il nome è obbligatorio</div>
                         </div>
-                        <div>
+                        <div class="input-wrapper">
                             <label for="cognome">Cognome</label>
                             <input type="text" id="cognome" name="cognome">
+                            <div class="error-message" id="error-cognome">Il cognome è obbligatorio</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-section">
+                <div class="form-section" data-section="2">
                     <div class="section-title">
                         <span class="section-number">2</span>
                         Contatto
                     </div>
-                    <label for="email">E-mail Aziendale</label>
-                    <input type="email" id="email" name="email">
+                    <div class="input-wrapper">
+                        <label for="email">E-mail Aziendale</label>
+                        <input type="email" id="email" name="email">
+                        <div class="error-message" id="error-email">Inserisci un indirizzo email valido</div>
+                    </div>
                 </div>
 
-                <div class="form-section">
+                <div class="form-section" data-section="3">
                     <div class="section-title">
                         <span class="section-number">3</span>
                         Reparti di Competenza
                     </div>
                     <label>Seleziona i reparti di cui sei responsabile o in cui lavori</label>
                     <p class="helper-text">Puoi selezionare più reparti se fai parte di più team</p>
-                    <div class="checkbox-group">
+                    <div class="checkbox-group" id="repartiGroup">
                         <div class="checkbox-item">
                             <input type="checkbox" id="dispo-bag" name="reparti" value="Dispo BAG">
                             <label for="dispo-bag">Dispo BAG</label>
@@ -449,16 +807,35 @@
                             <input type="checkbox" id="amministrazione" name="reparti" value="Amministrazione">
                             <label for="amministrazione">Amministrazione</label>
                         </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="altro-reparto" name="reparti" value="Altro">
+                            <label for="altro-reparto">Altro (specificare sotto)</label>
+                        </div>
+                    </div>
+                    <div class="error-message" id="error-reparti">Seleziona almeno un reparto</div>
+                    
+                    <div class="input-wrapper" style="margin-top: 1rem; display: none;" id="altroRepartoWrapper">
+                        <label for="altro-reparto-text">Specifica altro reparto</label>
+                        <input type="text" id="altro-reparto-text" name="altro-reparto-text" placeholder="Inserisci il nome del reparto">
                     </div>
                 </div>
 
-                <div class="form-section">
+                <div class="form-section" data-section="4">
                     <div class="section-title">
                         <span class="section-number">4</span>
                         Top 5 Report QlikView
+                        <div class="tooltip">
+                            <span class="tooltip-icon">?</span>
+                            <span class="tooltip-text">Indica i report che utilizzi più frequentemente o che sono critici per le tue attività quotidiane</span>
+                        </div>
                     </div>
                     <label>Indica i nomi dei 5 report QlikView più utilizzati e importanti del tuo reparto</label>
                     <p class="helper-text">Questi report verranno prioritizzati per la migrazione su Power BI. Elencali in ordine di importanza o frequenza d'uso</p>
+                    
+                    <div class="report-counter" id="reportCounter">
+                        <span id="reportCount">0</span> / 5 report inseriti
+                    </div>
+
                     <div class="report-inputs">
                         <div class="report-input-wrapper">
                             <span class="report-number">#1</span>
@@ -481,17 +858,31 @@
                             <input type="text" id="report5" name="report5" class="report-input" placeholder="Nome del quinto report QlikView">
                         </div>
                     </div>
+                    <div class="error-message" id="error-reports">Inserisci almeno il primo report</div>
+                </div>
+
+                <div class="form-section" data-section="5">
+                    <div class="section-title">
+                        <span class="section-number">5</span>
+                        Note Aggiuntive
+                    </div>
+                    <label for="note">Commenti o informazioni aggiuntive</label>
+                    <p class="helper-text">Qualsiasi altra informazione utile riguardo ai report o alle tue esigenze</p>
+                    <textarea id="note" name="note" placeholder="Inserisci eventuali note, richieste specifiche o problematiche che riscontri con i report attuali..."></textarea>
                 </div>
 
                 <div class="submit-section">
-                    <button type="submit">Invia Questionario</button>
+                    <button type="submit">
+                        Invia Questionario
+                        <span class="loading-spinner"></span>
+                    </button>
                 </div>
             </form>
         </div>
 
         <div class="success-message" id="successMessage">
             <h2>✓ Questionario Inviato con Successo!</h2>
-            <p>Grazie per aver completato il questionario. Le tue risposte sono state registrate.</p>
+            <p>Grazie per aver completato il questionario. Le tue risposte sono state registrate correttamente.</p>
         </div>
     </div>
 
@@ -499,19 +890,90 @@
         const form = document.getElementById('reportForm');
         const formCard = document.getElementById('formCard');
         const successMessage = document.getElementById('successMessage');
+        const reportCounter = document.getElementById('reportCount');
+        const altroRepartoCheckbox = document.getElementById('altro-reparto');
+        const altroRepartoWrapper = document.getElementById('altroRepartoWrapper');
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Initialize report counter on page load
+        window.addEventListener('load', function() {
+            updateReportCounter();
+        });
 
-            // Collect selected departments (can be empty)
+        // Update report counter on input
+        const formInputs = form.querySelectorAll('input, textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (input.classList.contains('report-input')) {
+                    updateReportCounter();
+                }
+                // Remove error styling on input
+                input.classList.remove('error');
+                const errorMsg = document.getElementById('error-' + input.name);
+                if (errorMsg) {
+                    errorMsg.classList.remove('show');
+                }
+            });
+        });
+
+        // Handle "Altro reparto" checkbox
+        altroRepartoCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                altroRepartoWrapper.style.display = 'block';
+            } else {
+                altroRepartoWrapper.style.display = 'none';
+                document.getElementById('altro-reparto-text').value = '';
+            }
+        });
+
+        // Add checked class to checkbox items
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    item.classList.add('checked');
+                } else {
+                    item.classList.remove('checked');
+                }
+            });
+
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    checkbox.checked = !checkbox.checked;
+                    checkbox.dispatchEvent(new Event('change'));
+                }
+            });
+        });
+
+        function updateReportCounter() {
+            let count = 0;
+            for (let i = 1; i <= 5; i++) {
+                if (document.getElementById('report' + i).value.trim()) {
+                    count++;
+                }
+            }
+            reportCounter.textContent = count;
+        }
+
+        function validateForm() {
+            // Nessuna validazione obbligatoria - tutto è opzionale
+            return true;
+        }
+
+        function showError(input, errorId) {
+            input.classList.add('error');
+            document.getElementById(errorId).classList.add('show');
+            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function getFormData() {
             const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
-
-            // Collect form data
-            const formData = {
+            return {
                 nome: document.getElementById('nome').value,
                 cognome: document.getElementById('cognome').value,
                 email: document.getElementById('email').value,
                 reparti: Array.from(checkboxes).map(cb => cb.value),
+                altroReparto: document.getElementById('altro-reparto-text').value,
                 reports: [
                     document.getElementById('report1').value,
                     document.getElementById('report2').value,
@@ -519,10 +981,25 @@
                     document.getElementById('report4').value,
                     document.getElementById('report5').value
                 ],
+                note: document.getElementById('note').value,
                 timestamp: new Date().toISOString()
             };
+        }
 
-            // Invia i dati a Google Sheets
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const formData = getFormData();
+
+            // Send to Google Sheets
             fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
                 method: 'POST',
                 mode: 'no-cors',
@@ -530,19 +1007,12 @@
                 body: JSON.stringify(formData)
             }).catch(error => console.log('Dati inviati a Google Sheets'));
 
-            // Show success message
-            formCard.style.display = 'none';
-            successMessage.style.display = 'block';
-        });
-
-        // Add smooth hover effects to checkbox items
-        document.querySelectorAll('.checkbox-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (e.target.tagName !== 'INPUT') {
-                    const checkbox = this.querySelector('input[type="checkbox"]');
-                    checkbox.checked = !checkbox.checked;
-                }
-            });
+            // Show success message after delay
+            setTimeout(() => {
+                formCard.style.display = 'none';
+                successMessage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 1500);
         });
     </script>
 </body>
