@@ -3,297 +3,770 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionario</title>
-
+<title>Questionario Report QlikView - Goline IT Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+:root {
+--goline-teal: #0d95a8;
+--goline-dark: #2c3e50;
+--goline-light: #f8fafb;
+--goline-accent: #00b4cc;
+--error-red: #ef4444;
+--shadow-subtle: 0 2px 8px rgba(13, 149, 168, 0.08);
+--shadow-medium: 0 8px 24px rgba(13, 149, 168, 0.12);
+--shadow-strong: 0 16px 48px rgba(13, 149, 168, 0.18);
+}
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f5f7fa;
-    margin: 0;
-    padding: 20px;
+font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+background: linear-gradient(135deg, #f8fafb 0%, #e8f4f6 100%);
+color: var(--goline-dark);
+min-height: 100vh;
+padding: 2rem 1rem;
+position: relative;
+overflow-x: hidden;
+}
+
+body::before {
+content: '';
+position: fixed;
+top: -50%;
+right: -10%;
+width: 600px;
+height: 600px;
+background: radial-gradient(circle, rgba(13, 149, 168, 0.08) 0%, transparent 70%);
+border-radius: 50%;
+pointer-events: none;
+z-index: 0;
+}
+
+body::after {
+content: '';
+position: fixed;
+bottom: -30%;
+left: -10%;
+width: 500px;
+height: 500px;
+background: radial-gradient(circle, rgba(0, 180, 204, 0.06) 0%, transparent 70%);
+border-radius: 50%;
+pointer-events: none;
+z-index: 0;
 }
 
 .container {
-    max-width: 700px;
-    margin: auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+max-width: 780px;
+margin: 0 auto;
+position: relative;
+z-index: 1;
+}
+
+.header {
+text-align: center;
+margin-bottom: 3rem;
+animation: fadeInDown 0.8s ease;
+}
+
+.logo-container {
+background: white;
+padding: 2rem;
+border-radius: 16px;
+box-shadow: var(--shadow-medium);
+margin-bottom: 2rem;
+display: inline-block;
 }
 
 h1 {
-    margin-top: 0;
+font-size: 2rem;
+font-weight: 700;
+color: var(--goline-teal);
+margin-bottom: 0.75rem;
+letter-spacing: -0.02em;
+}
+
+.subtitle {
+font-size: 1.1rem;
+color: #64748b;
+font-weight: 400;
+line-height: 1.6;
+}
+
+.form-card {
+background: white;
+border-radius: 20px;
+padding: 3rem;
+box-shadow: var(--shadow-strong);
+animation: fadeInUp 0.8s ease 0.2s backwards;
+}
+
+.form-section {
+margin-bottom: 3rem;
+opacity: 0;
+animation: slideIn 0.6s ease forwards;
+}
+
+.form-section:nth-child(1) { animation-delay: 0.3s; }
+.form-section:nth-child(2) { animation-delay: 0.4s; }
+.form-section:nth-child(3) { animation-delay: 0.5s; }
+.form-section:nth-child(4) { animation-delay: 0.6s; }
+.form-section:nth-child(5) { animation-delay: 0.7s; }
+
+.section-title {
+font-size: 0.85rem;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.08em;
+color: var(--goline-teal);
+margin-bottom: 1rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+}
+
+.section-number {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 24px;
+height: 24px;
+background: var(--goline-teal);
+color: white;
+border-radius: 50%;
+font-size: 0.75rem;
+font-weight: 700;
 }
 
 label {
-    font-weight: bold;
-    display: block;
-    margin-top: 15px;
+display: block;
+font-size: 1.1rem;
+font-weight: 500;
+color: var(--goline-dark);
+margin-bottom: 1.25rem;
+}
+
+.required {
+color: var(--error-red);
+margin-left: 0.25rem;
+font-weight: 700;
 }
 
 input[type="text"],
 input[type="email"],
 textarea {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+width: 100%;
+padding: 1rem 1.25rem;
+font-size: 1.05rem;
+font-family: 'Outfit', sans-serif;
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+transition: all 0.3s ease;
+background: #fafbfc;
 }
 
 textarea {
-    min-height: 80px;
+resize: vertical;
+min-height: 120px;
+line-height: 1.6;
 }
 
-input.error,
-textarea.error {
-    border-color: #e74c3c;
+input[type="text"]:focus,
+input[type="email"]:focus,
+textarea:focus {
+outline: none;
+border-color: var(--goline-teal);
+background: white;
+box-shadow: 0 0 0 4px rgba(13, 149, 168, 0.1);
+transform: translateY(-1px);
+}
+
+input.error {
+border-color: var(--error-red);
+background: #fef2f2;
+}
+
+input.error:focus {
+box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
 }
 
 .error-message {
-    color: #e74c3c;
-    font-size: 0.9em;
-    display: none;
+color: var(--error-red);
+font-size: 0.9rem;
+margin-top: 0.5rem;
+display: none;
+font-weight: 500;
 }
 
 .error-message.show {
-    display: block;
+display: block;
+animation: shake 0.4s ease;
 }
 
-#reparti label {
-    font-weight: normal;
-    display: block;
-    margin-top: 5px;
+.input-row {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1rem;
 }
 
-#altro-wrapper {
-    display: none;
-    margin-top: 10px;
+.checkbox-group {
+display: grid;
+gap: 1rem;
+margin-top: 0.5rem;
 }
 
-button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    border: none;
-    background: #007bff;
-    color: white;
-    font-size: 1em;
-    border-radius: 5px;
-    cursor: pointer;
+.checkbox-group.error {
+animation: shake 0.4s ease;
 }
 
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.checkbox-item {
+display: flex;
+align-items: center;
+padding: 1.125rem 1.25rem;
+background: #fafbfc;
+border: 2px solid #e2e8f0;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+position: relative;
 }
 
-button.loading {
-    background: #999;
+.checkbox-item:hover {
+border-color: var(--goline-teal);
+background: white;
+transform: translateX(4px);
 }
 
-.report-counter {
-    margin-top: 10px;
-    font-weight: bold;
+.checkbox-item input[type="checkbox"] {
+width: 22px;
+height: 22px;
+margin-right: 1rem;
+cursor: pointer;
+accent-color: var(--goline-teal);
 }
 
-.report-counter.medium {
-    color: #e67e22;
+.checkbox-item label {
+margin: 0;
+cursor: pointer;
+font-size: 1rem;
+flex: 1;
 }
 
-.report-counter.good {
-    color: #27ae60;
+.checkbox-item input:checked + label {
+font-weight: 600;
 }
 
-#successScreen {
-    display: none;
-    text-align: center;
+.checkbox-item:has(input:checked) {
+background: rgba(13, 149, 168, 0.05);
+border-color: var(--goline-teal);
 }
 
+.helper-text {
+font-size: 0.95rem;
+color: #64748b;
+margin-bottom: 1rem;
+font-weight: 400;
+}
+
+.report-inputs {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+margin-top: 1rem;
+}
+
+.report-input-wrapper {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.report-number {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+min-width: 36px;
+height: 36px;
+background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
+color: white;
+border-radius: 8px;
+font-size: 0.9rem;
+font-weight: 700;
+font-family: 'Space Mono', monospace;
+}
+
+.report-input {
+flex: 1;
+}
+
+.report-inputs.error .report-input:first-child {
+border-color: var(--error-red);
+background: #fef2f2;
+}
+
+.submit-section {
+margin-top: 2.5rem;
+padding-top: 2rem;
+border-top: 2px solid #f1f5f9;
+}
+
+button[type="submit"] {
+width: 100%;
+padding: 1.25rem 2rem;
+font-size: 1.1rem;
+font-weight: 600;
+color: white;
+background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
+border: none;
+border-radius: 12px;
+cursor: pointer;
+transition: all 0.3s ease;
+box-shadow: var(--shadow-medium);
+font-family: 'Outfit', sans-serif;
+}
+
+button[type="submit"]:hover {
+transform: translateY(-2px);
+box-shadow: var(--shadow-strong);
+}
+
+button[type="submit"]:active {
+transform: translateY(0);
+}
+
+button[type="submit"]:disabled {
+opacity: 0.7;
+cursor: not-allowed;
+transform: none;
+}
+
+.success-message {
+display: none;
+background: white;
+border-radius: 20px;
+padding: 3rem;
+text-align: center;
+box-shadow: var(--shadow-strong);
+animation: fadeInUp 0.8s ease;
+}
+
+.success-message h2 {
+color: #10b981;
+font-size: 1.8rem;
+margin-bottom: 1rem;
+}
+
+.success-message p {
+color: #64748b;
+font-size: 1.1rem;
+}
+
+.validation-summary {
+background: #fef2f2;
+border: 2px solid var(--error-red);
+border-radius: 12px;
+padding: 1.5rem;
+margin-bottom: 2rem;
+display: none;
+}
+
+.validation-summary.show {
+display: block;
+animation: shake 0.4s ease;
+}
+
+.validation-summary h3 {
+color: var(--error-red);
+font-size: 1.1rem;
+margin-bottom: 1rem;
+}
+
+.validation-summary ul {
+margin-left: 1.5rem;
+color: var(--error-red);
+}
+
+.validation-summary li {
+margin-bottom: 0.5rem;
+font-weight: 500;
+}
+
+@keyframes fadeInDown {
+from {
+opacity: 0;
+transform: translateY(-30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes slideIn {
+from {
+opacity: 0;
+transform: translateX(-20px);
+}
+to {
+opacity: 1;
+transform: translateX(0);
+}
+}
+
+@keyframes shake {
+0%, 100% { transform: translateX(0); }
+25% { transform: translateX(-10px); }
+75% { transform: translateX(10px); }
+}
+
+@media (max-width: 768px) {
+.input-row {
+grid-template-columns: 1fr;
+}
+
+.form-card {
+padding: 2rem 1.5rem;
+}
+
+h1 {
+font-size: 1.6rem;
+}
+
+.subtitle {
+font-size: 1rem;
+}
+}
 </style>
 </head>
-
 <body>
-
-<div class="container" id="formContainer">
-    <h1>Questionario</h1>
-
-    <form id="questionarioForm">
-
-        <label for="nome">Nome</label>
-        <input type="text" id="nome">
-        <div class="error-message" id="err-nome">Nome obbligatorio</div>
-
-        <label for="cognome">Cognome</label>
-        <input type="text" id="cognome">
-        <div class="error-message" id="err-cognome">Cognome obbligatorio</div>
-
-        <label for="email">Email</label>
-        <input type="email" id="email">
-        <div class="error-message" id="err-email">Email non valida</div>
-
-        <label>Reparti</label>
-        <div id="reparti">
-            <label><input type="checkbox" value="Produzione"> Produzione</label>
-            <label><input type="checkbox" value="Logistica"> Logistica</label>
-            <label><input type="checkbox" value="Amministrazione"> Amministrazione</label>
-            <label>
-                <input type="checkbox" id="rb-altro" value="Altro"> Altro
-            </label>
-        </div>
-        <div class="error-message" id="err-reparti">Seleziona almeno un reparto</div>
-
-        <div id="altro-wrapper">
-            <label for="altro-reparto">Specifica altro reparto</label>
-            <input type="text" id="altro-reparto">
-        </div>
-
-        <label>Report (max 5)</label>
-        <textarea id="r1" placeholder="Report 1"></textarea>
-        <textarea id="r2" placeholder="Report 2"></textarea>
-        <textarea id="r3" placeholder="Report 3"></textarea>
-        <textarea id="r4" placeholder="Report 4"></textarea>
-        <textarea id="r5" placeholder="Report 5"></textarea>
-
-        <div class="error-message" id="err-report"></div>
-        <div class="report-counter" id="counter"></div>
-
-        <label for="note">Note aggiuntive</label>
-        <textarea id="note"></textarea>
-
-        <button type="submit" id="btnSubmit">Invia Questionario</button>
-    </form>
+<div class="container">
+<div class="header">
+<div class="logo-container">
+<h1 style="color: var(--goline-teal); font-size: 2.5rem; margin: 0;">GOLINE</h1>
+<p style="color: var(--goline-dark); font-size: 1.25rem; margin-top: 0.5rem; font-weight: 400;">IT Services</p>
+</div>
+<h1>Questionario Report QlikView</h1>
+<p class="subtitle">Compila questo questionario per aiutarci a identificare i report QlikView più utilizzati nel tuo reparto.<br>Le tue risposte saranno fondamentali per pianificare la migrazione a Power BI.</p>
 </div>
 
-<div class="container" id="successScreen">
-    <h1>✅ Grazie!</h1>
-    <p>Il questionario è stato inviato correttamente.</p>
+<div class="form-card" id="formCard">
+<div class="validation-summary" id="validationSummary">
+<h3>⚠️ Compila i seguenti campi obbligatori:</h3>
+<ul id="validationList"></ul>
+</div>
+
+<form id="reportForm">
+<div class="form-section">
+<div class="section-title">
+<span class="section-number">1</span>
+Informazioni Personali
+</div>
+<div class="input-row">
+<div>
+<label for="nome">Nome <span class="required">*</span></label>
+<input type="text" id="nome" name="nome" required>
+<div class="error-message" id="nomeError">Il nome è obbligatorio</div>
+</div>
+<div>
+<label for="cognome">Cognome <span class="required">*</span></label>
+<input type="text" id="cognome" name="cognome" required>
+<div class="error-message" id="cognomeError">Il cognome è obbligatorio</div>
+</div>
+</div>
+</div>
+
+<div class="form-section">
+<div class="section-title">
+<span class="section-number">2</span>
+Contatto
+</div>
+<label for="email">E-mail Aziendale <span class="required">*</span></label>
+<input type="email" id="email" name="email" required>
+<div class="error-message" id="emailError">Inserisci un'email valida</div>
+</div>
+
+<div class="form-section">
+<div class="section-title">
+<span class="section-number">3</span>
+Reparti di Competenza
+</div>
+<label>Seleziona i reparti di cui sei responsabile o per cui compili questo questionario <span class="required">*</span></label>
+<p class="helper-text">Puoi selezionare più reparti se necessario. Almeno un reparto è obbligatorio.</p>
+<div class="checkbox-group" id="repartiGroup">
+<div class="checkbox-item">
+<input type="checkbox" id="dispo-bag" name="reparti" value="Dispo BAG">
+<label for="dispo-bag">Dispo BAG</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="dispo-pf" name="reparti" value="Dispo PF">
+<label for="dispo-pf">Dispo PF</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="management-qualita" name="reparti" value="Management di Qualità">
+<label for="management-qualita">Management di Qualità</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="acquisti-vendite" name="reparti" value="Acquisti/Vendite">
+<label for="acquisti-vendite">Acquisti/Vendite</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="direzione" name="reparti" value="Direzione">
+<label for="direzione">Direzione</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="logistica-trasporti" name="reparti" value="Logistica/Trasporti">
+<label for="logistica-trasporti">Logistica/Trasporti</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="prepack" name="reparti" value="Prepack">
+<label for="prepack">Prepack</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="controllo-merci" name="reparti" value="Controllo entrata merci">
+<label for="controllo-merci">Controllo entrata merci</label>
+</div>
+<div class="checkbox-item">
+<input type="checkbox" id="amministrazione" name="reparti" value="Amministrazione">
+<label for="amministrazione">Amministrazione</label>
+</div>
+</div>
+<div class="error-message" id="repartiError">Seleziona almeno un reparto</div>
+</div>
+
+<div class="form-section">
+<div class="section-title">
+<span class="section-number">4</span>
+Top 5 Report QlikView
+</div>
+<label>Indica i 5 report QlikView più utilizzati nel tuo reparto <span class="required">*</span></label>
+<p class="helper-text">Elenca i report QlikView in ordine di importanza o frequenza d'uso. Questi report verranno prioritizzati nella migrazione a Power BI. È obbligatorio indicare almeno il primo report.</p>
+<div class="report-inputs" id="reportInputs">
+<div class="report-input-wrapper">
+<span class="report-number">#1</span>
+<input type="text" id="report1" name="report1" class="report-input" placeholder="Nome del report più importante o utilizzato" required>
+</div>
+<div class="report-input-wrapper">
+<span class="report-number">#2</span>
+<input type="text" id="report2" name="report2" class="report-input" placeholder="Nome del secondo report">
+</div>
+<div class="report-input-wrapper">
+<span class="report-number">#3</span>
+<input type="text" id="report3" name="report3" class="report-input" placeholder="Nome del terzo report">
+</div>
+<div class="report-input-wrapper">
+<span class="report-number">#4</span>
+<input type="text" id="report4" name="report4" class="report-input" placeholder="Nome del quarto report">
+</div>
+<div class="report-input-wrapper">
+<span class="report-number">#5</span>
+<input type="text" id="report5" name="report5" class="report-input" placeholder="Nome del quinto report">
+</div>
+</div>
+<div class="error-message" id="reportsError">Inserisci almeno il primo report</div>
+</div>
+
+<div class="form-section">
+<div class="section-title">
+<span class="section-number">5</span>
+Note e Problemi
+</div>
+<label for="note">Note aggiuntive (opzionale)</label>
+<p class="helper-text">Segnala eventuali problemi, difficoltà o necessità specifiche riguardo ai report QlikView attuali che vorresti vedere migliorati nella migrazione a Power BI.</p>
+<textarea id="note" name="note" rows="6" placeholder="Es: Il report X è lento, il report Y ha dati non sempre aggiornati, il report Z è complesso da utilizzare..."></textarea>
+</div>
+
+<div class="submit-section">
+<button type="submit">Invia Questionario</button>
+</div>
+</form>
+</div>
+
+<div class="success-message" id="successMessage">
+<h2>✓ Questionario Inviato con Successo!</h2>
+<p>Grazie per aver completato il questionario. Le tue risposte sono state registrate correttamente.</p>
+</div>
 </div>
 
 <script>
-const form          = document.getElementById('questionarioForm');
-const btnSubmit     = document.getElementById('btnSubmit');
-const successScreen = document.getElementById('successScreen');
-const formContainer = document.getElementById('formContainer');
-const counterEl     = document.getElementById('counter');
+// CONFIGURAZIONE ENDPOINT
+// Cambia questo URL in base all'ambiente:
+// - Locale: 'http://localhost:5000/submit'
+// - Server: 'http://IP_SERVER:5000/submit' oppure l'URL del tuo server
+const API_ENDPOINT = 'http://localhost:5000/submit';
 
-const altroChk      = document.getElementById('rb-altro');
-const altroWrapper  = document.getElementById('altro-wrapper');
+const form = document.getElementById('reportForm');
+const formCard = document.getElementById('formCard');
+const successMessage = document.getElementById('successMessage');
+const validationSummary = document.getElementById('validationSummary');
+const validationList = document.getElementById('validationList');
 
-// Mostra/nasconde "Altro"
-altroChk.addEventListener('change', () => {
-    altroWrapper.style.display = altroChk.checked ? 'block' : 'none';
-    if (!altroChk.checked) document.getElementById('altro-reparto').value = '';
+// Rimuovi errori quando l'utente inizia a digitare
+document.getElementById('nome').addEventListener('input', function() {
+this.classList.remove('error');
+document.getElementById('nomeError').classList.remove('show');
 });
 
-// Contatore report
-function updateCounter() {
-    let count = 0;
-    for (let i = 1; i <= 5; i++) {
-        if (document.getElementById('r' + i).value.trim()) count++;
-    }
-    counterEl.textContent = count + ' / 5 report inseriti';
-    counterEl.className = 'report-counter ' + 
-        (count >= 3 ? 'good' : count >= 1 ? 'medium' : '');
-}
-document.querySelectorAll('#r1,#r2,#r3,#r4,#r5')
-    .forEach(el => el.addEventListener('input', updateCounter));
-updateCounter();
-
-// Pulisci errori
-form.querySelectorAll('input, textarea').forEach(field => {
-    field.addEventListener('input', () => {
-        field.classList.remove('error');
-        const err = document.getElementById('err-' + field.id);
-        if (err) err.classList.remove('show');
-    });
+document.getElementById('cognome').addEventListener('input', function() {
+this.classList.remove('error');
+document.getElementById('cognomeError').classList.remove('show');
 });
 
-// Validazione
-function validate() {
-    let valid = true;
+document.getElementById('email').addEventListener('input', function() {
+this.classList.remove('error');
+document.getElementById('emailError').classList.remove('show');
+});
 
-    const nome = document.getElementById('nome').value.trim();
-    document.getElementById('nome').classList.toggle('error', !nome);
-    document.getElementById('err-nome').classList.toggle('show', !nome);
-    if (!nome) valid = false;
+document.getElementById('report1').addEventListener('input', function() {
+document.getElementById('reportInputs').classList.remove('error');
+document.getElementById('reportsError').classList.remove('show');
+});
 
-    const cognome = document.getElementById('cognome').value.trim();
-    document.getElementById('cognome').classList.toggle('error', !cognome);
-    document.getElementById('err-cognome').classList.toggle('show', !cognome);
-    if (!cognome) valid = false;
+document.querySelectorAll('input[name="reparti"]').forEach(checkbox => {
+checkbox.addEventListener('change', function() {
+document.getElementById('repartiGroup').classList.remove('error');
+document.getElementById('repartiError').classList.remove('show');
+});
+});
 
-    const emailVal = document.getElementById('email').value.trim();
-    let emailOk = emailVal && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
-    document.getElementById('email').classList.toggle('error', !emailOk);
-    document.getElementById('err-email').classList.toggle('show', !emailOk);
-    if (!emailOk) valid = false;
+form.addEventListener('submit', function(e) {
+e.preventDefault();
 
-    const repartiOk = document.querySelectorAll('#reparti input:checked').length > 0;
-    document.getElementById('err-reparti').classList.toggle('show', !repartiOk);
-    if (!repartiOk) valid = false;
+// Reset errori
+validationSummary.classList.remove('show');
+validationList.innerHTML = '';
+document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
 
-    let reportCount = 0;
-    for (let i = 1; i <= 5; i++) {
-        if (document.getElementById('r' + i).value.trim()) reportCount++;
-    }
-    const reportOk = reportCount >= 1;
-    document.getElementById('err-report').textContent =
-        reportOk ? "" : "Inserisci almeno un report importante";
-    document.getElementById('err-report').classList.toggle('show', !reportOk);
-    if (!reportOk) valid = false;
+const errors = [];
 
-    if (!valid) {
-        const firstError = form.querySelector('.error, .error-message.show');
-        firstError?.scrollIntoView({behavior: 'smooth', block: 'center'});
-    }
-
-    return valid;
+// Validazione Nome
+const nome = document.getElementById('nome').value.trim();
+if (!nome) {
+errors.push('Nome');
+document.getElementById('nome').classList.add('error');
+document.getElementById('nomeError').classList.add('show');
 }
 
-// Submit
-form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!validate()) return;
+// Validazione Cognome
+const cognome = document.getElementById('cognome').value.trim();
+if (!cognome) {
+errors.push('Cognome');
+document.getElementById('cognome').classList.add('error');
+document.getElementById('cognomeError').classList.add('show');
+}
 
-    btnSubmit.disabled = true;
-    btnSubmit.classList.add('loading');
-    btnSubmit.textContent = 'Invio in corso…';
+// Validazione Email
+const email = document.getElementById('email').value.trim();
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!email || !emailRegex.test(email)) {
+errors.push('Email valida');
+document.getElementById('email').classList.add('error');
+document.getElementById('emailError').classList.add('show');
+}
 
-    const data = {
-        nome: nome.value,
-        cognome: cognome.value,
-        email: email.value,
-        reparti: Array.from(document.querySelectorAll('#reparti input:checked')).map(cb => cb.value),
-        altroReparto: altroChk.checked ? document.getElementById('altro-reparto').value.trim() : '',
-        reports: [r1.value, r2.value, r3.value, r4.value, r5.value].filter(v => v),
-        note: note.value.trim()
-    };
+// Validazione Reparti (almeno uno selezionato)
+const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
+if (checkboxes.length === 0) {
+errors.push('Almeno un reparto');
+document.getElementById('repartiGroup').classList.add('error');
+document.getElementById('repartiError').classList.add('show');
+}
 
-    try {
-        const res = await fetch('https://script.google.com/macros/s/AKfycby5Hbf3kGCDOujg4HmP_NUBOkx9pjo9UIfccWMG_m042bVTOQQV9UBYFxjNQ_U5FUiCnA/exec', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
+// Validazione Report (almeno il primo)
+const report1 = document.getElementById('report1').value.trim();
+if (!report1) {
+errors.push('Almeno il primo report');
+document.getElementById('reportInputs').classList.add('error');
+document.getElementById('reportsError').classList.add('show');
+}
 
-        const result = await res.json();
-        if (result.status === 'success') {
-            formContainer.style.display = 'none';
-            successScreen.style.display = 'block';
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        } else {
-            alert('Errore server');
-        }
-    } catch {
-        alert('Errore di connessione');
-    } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.classList.remove('loading');
-        btnSubmit.textContent = 'Invia Questionario';
-    }
+// Se ci sono errori, mostra il riepilogo e scrolla in alto
+if (errors.length > 0) {
+errors.forEach(error => {
+const li = document.createElement('li');
+li.textContent = error;
+validationList.appendChild(li);
+});
+validationSummary.classList.add('show');
+window.scrollTo({ top: 0, behavior: 'smooth' });
+return;
+}
+
+// Raccogli i dati del form
+const formData = {
+nome: nome,
+cognome: cognome,
+email: email,
+reparti: Array.from(checkboxes).map(cb => cb.value),
+reports: [
+document.getElementById('report1').value.trim(),
+document.getElementById('report2').value.trim(),
+document.getElementById('report3').value.trim(),
+document.getElementById('report4').value.trim(),
+document.getElementById('report5').value.trim()
+],
+note: document.getElementById('note').value.trim(),
+timestamp: new Date().toISOString()
+};
+
+// Disabilita il pulsante durante l'invio
+const submitButton = form.querySelector('button[type="submit"]');
+submitButton.disabled = true;
+submitButton.textContent = 'Invio in corso...';
+
+// Invia i dati al server Flask locale
+fetch(API_ENDPOINT, {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(formData)
+})
+.then(response => response.json())
+.then(data => {
+if (data.status === 'success') {
+formCard.style.display = 'none';
+successMessage.style.display = 'block';
+window.scrollTo({ top: 0, behavior: 'smooth' });
+} else {
+// Errore di validazione dal server
+submitButton.disabled = false;
+submitButton.textContent = 'Invia Questionario';
+
+alert('Errore nella validazione: ' + (data.errors ? data.errors.join(', ') : data.message));
+}
+})
+.catch(error => {
+submitButton.disabled = false;
+submitButton.textContent = 'Invia Questionario';
+
+alert('Errore di connessione al server. Verifica che il server Flask sia attivo.');
+console.error('Error:', error);
+});
+});
+
+// Gestione click sugli item checkbox
+document.querySelectorAll('.checkbox-item').forEach(item => {
+item.addEventListener('click', function(e) {
+if (e.target.tagName !== 'INPUT') {
+const checkbox = this.querySelector('input[type="checkbox"]');
+checkbox.checked = !checkbox.checked;
+checkbox.dispatchEvent(new Event('change'));
+}
+});
 });
 </script>
-
 </body>
 </html>
