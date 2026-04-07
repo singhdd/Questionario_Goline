@@ -1,6 +1,6 @@
 """
 HTML-Vorlage für den Fragebogen (Deutsche Version)
-Stile identisch zur italienischen Version
+Stile identisch mit der italienischen Version
 """
 
 HTML_TEMPLATE = """<!DOCTYPE html>
@@ -8,7 +8,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QlikView-Bericht Fragebogen - Goline IT Services</title>
+<title>QlikView-Berichtsfragebogen - Goline IT Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -479,10 +479,10 @@ width: 100%;
 <div class="container">
 <div class="header">
 <div class="logo-container">
-<h1>📊 QlikView-Bericht Fragebogen</h1>
+<h1>📊 QlikView-Berichtsfragebogen</h1>
 <p class="subtitle">Goline IT Services – Migration zu Power BI</p>
 </div>
-<div class="server-status" id="serverStatus">✓ Server verbunden</div>
+<div class="server-status" id="serverStatus">✓ Mit Server verbunden</div>
 </div>
 
 <div class="form-card" id="formCard">
@@ -634,7 +634,7 @@ try {
 const response = await fetch('/api/health');
 const data = await response.json();
 if (data.status === 'ok') {
-serverStatus.textContent = '✓ Server verbunden';
+serverStatus.textContent = '✓ Mit Server verbunden';
 serverStatus.classList.remove('offline');
 } else {
 throw new Error('Server antwortet nicht');
@@ -690,7 +690,7 @@ const errors = [];
 // Vorname validieren
 const nome = document.getElementById('nome').value.trim();
 if (!nome) {
-errors.push('Vorname');
+errors.push('Vorname ist erforderlich');
 document.getElementById('nome').classList.add('error');
 document.getElementById('nomeError').classList.add('show');
 }
@@ -698,7 +698,7 @@ document.getElementById('nomeError').classList.add('show');
 // Nachname validieren
 const cognome = document.getElementById('cognome').value.trim();
 if (!cognome) {
-errors.push('Nachname');
+errors.push('Nachname ist erforderlich');
 document.getElementById('cognome').classList.add('error');
 document.getElementById('cognomeError').classList.add('show');
 }
@@ -707,7 +707,7 @@ document.getElementById('cognomeError').classList.add('show');
 const email = document.getElementById('email').value.trim();
 const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
 if (!email || !emailRegex.test(email)) {
-errors.push('Gültige E-Mail-Adresse');
+errors.push('Gültige E-Mail-Adresse ist erforderlich');
 document.getElementById('email').classList.add('error');
 document.getElementById('emailError').classList.add('show');
 }
@@ -715,7 +715,7 @@ document.getElementById('emailError').classList.add('show');
 // Abteilungen validieren
 const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
 if (checkboxes.length === 0) {
-errors.push('Mindestens eine Abteilung');
+errors.push('Mindestens eine Abteilung ist erforderlich');
 document.getElementById('repartiGroup').classList.add('error');
 document.getElementById('repartiError').classList.add('show');
 }
@@ -723,7 +723,7 @@ document.getElementById('repartiError').classList.add('show');
 // Berichte validieren
 const report1 = document.getElementById('report1').value.trim();
 if (!report1) {
-errors.push('Mindestens der erste Bericht');
+errors.push('Mindestens der erste Bericht ist erforderlich');
 document.getElementById('reportInputs').classList.add('error');
 document.getElementById('reportsError').classList.add('show');
 }
