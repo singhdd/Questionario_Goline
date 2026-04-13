@@ -1,135 +1,168 @@
-"""
-HTML-Vorlage für den Fragebogen (Deutsche Version)
-Stile identisch mit der italienischen Version
-"""
-
-HTML_TEMPLATE = """<!DOCTYPE html>
-<html lang="de">
+<!DOCTYPE html>
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QlikView-Berichtsfragebogen - Goline IT Services</title>
+<title>Questionario Report QlikView / QlikView-Bericht Fragebogen - Goline IT Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
---goline-teal: #0d95a8;
---goline-dark: #2c3e50;
---goline-light: #f8fafb;
---goline-accent: #00b4cc;
---error-red: #ef4444;
---shadow-subtle: 0 2px 8px rgba(13, 149, 168, 0.08);
---shadow-medium: 0 8px 24px rgba(13, 149, 168, 0.12);
---shadow-strong: 0 16px 48px rgba(13, 149, 168, 0.18);
+  --goline-teal: #0d95a8;
+  --goline-dark: #2c3e50;
+  --goline-light: #f8fafb;
+  --goline-accent: #00b4cc;
+  --error-red: #ef4444;
+  --shadow-subtle: 0 2px 8px rgba(13, 149, 168, 0.08);
+  --shadow-medium: 0 8px 24px rgba(13, 149, 168, 0.12);
+  --shadow-strong: 0 16px 48px rgba(13, 149, 168, 0.18);
 }
 
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-background: linear-gradient(135deg, #f8fafb 0%, #e8f4f6 100%);
-color: var(--goline-dark);
-min-height: 100vh;
-padding: 2rem 1rem;
-position: relative;
-overflow-x: hidden;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #f8fafb 0%, #e8f4f6 100%);
+  color: var(--goline-dark);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow-x: hidden;
 }
 
 body::before {
-content: '';
-position: fixed;
-top: -50%;
-right: -10%;
-width: 600px;
-height: 600px;
-background: radial-gradient(circle, rgba(13, 149, 168, 0.08) 0%, transparent 70%);
-border-radius: 50%;
-pointer-events: none;
-z-index: 0;
+  content: '';
+  position: fixed;
+  top: -50%; right: -10%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(13, 149, 168, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none; z-index: 0;
 }
 
 body::after {
-content: '';
-position: fixed;
-bottom: -30%;
-left: -10%;
-width: 500px;
-height: 500px;
-background: radial-gradient(circle, rgba(0, 180, 204, 0.06) 0%, transparent 70%);
-border-radius: 50%;
-pointer-events: none;
-z-index: 0;
+  content: '';
+  position: fixed;
+  bottom: -30%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0, 180, 204, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none; z-index: 0;
 }
 
 .container {
-max-width: 780px;
-margin: 0 auto;
-position: relative;
-z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* ── LANGUAGE SWITCHER ── */
+.lang-switcher {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  animation: fadeInDown 0.5s ease;
+}
+
+.lang-switcher-inner {
+  display: flex;
+  background: white;
+  border-radius: 50px;
+  padding: 5px;
+  box-shadow: var(--shadow-medium);
+  gap: 4px;
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.55rem 1.4rem;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #94a3b8;
+  letter-spacing: 0.02em;
+}
+
+.lang-btn .flag {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(13, 149, 168, 0.35);
+}
+
+.lang-btn:not(.active):hover {
+  color: var(--goline-teal);
+  background: rgba(13, 149, 168, 0.07);
+}
+
+/* ── HEADER ── */
 .header {
-text-align: center;
-margin-bottom: 3rem;
-animation: fadeInDown 0.8s ease;
+  text-align: center;
+  margin-bottom: 3rem;
+  animation: fadeInDown 0.8s ease;
 }
 
 .logo-container {
-background: white;
-padding: 2rem;
-border-radius: 16px;
-box-shadow: var(--shadow-medium);
-margin-bottom: 2rem;
-display: inline-block;
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: var(--shadow-medium);
+  margin-bottom: 2rem;
+  display: inline-block;
 }
 
 .server-status {
-background: #10b981;
-color: white;
-padding: 0.5rem 1rem;
-border-radius: 8px;
-font-size: 0.85rem;
-font-weight: 600;
-margin-top: 1rem;
-display: inline-block;
+  background: #10b981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  display: inline-block;
 }
-
-.server-status.offline {
-background: #ef4444;
-}
+.server-status.offline { background: #ef4444; }
 
 h1 {
-font-size: 2rem;
-font-weight: 700;
-color: var(--goline-teal);
-margin-bottom: 0.75rem;
-letter-spacing: -0.02em;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--goline-teal);
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-font-size: 1.1rem;
-color: #64748b;
-font-weight: 400;
-line-height: 1.6;
+  font-size: 1.1rem;
+  color: #64748b;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
+/* ── FORM CARD ── */
 .form-card {
-background: white;
-border-radius: 20px;
-padding: 3rem;
-box-shadow: var(--shadow-strong);
-animation: fadeInUp 0.8s ease 0.2s backwards;
+  background: white;
+  border-radius: 20px;
+  padding: 3rem;
+  box-shadow: var(--shadow-strong);
+  animation: fadeInUp 0.8s ease 0.2s backwards;
 }
 
 .form-section {
-margin-bottom: 3rem;
-opacity: 0;
-animation: slideIn 0.6s ease forwards;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: slideIn 0.6s ease forwards;
 }
-
 .form-section:nth-child(1) { animation-delay: 0.3s; }
 .form-section:nth-child(2) { animation-delay: 0.4s; }
 .form-section:nth-child(3) { animation-delay: 0.5s; }
@@ -137,672 +170,670 @@ animation: slideIn 0.6s ease forwards;
 .form-section:nth-child(5) { animation-delay: 0.7s; }
 
 .section-title {
-font-size: 0.85rem;
-font-weight: 600;
-text-transform: uppercase;
-letter-spacing: 0.08em;
-color: var(--goline-teal);
-margin-bottom: 1rem;
-display: flex;
-align-items: center;
-gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--goline-teal);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .section-number {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-width: 24px;
-height: 24px;
-background: var(--goline-teal);
-color: white;
-border-radius: 50%;
-font-size: 0.75rem;
-font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  background: var(--goline-teal);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 label {
-display: block;
-font-size: 1.1rem;
-font-weight: 500;
-color: var(--goline-dark);
-margin-bottom: 1.25rem;
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--goline-dark);
+  margin-bottom: 1.25rem;
 }
 
-.required {
-color: var(--error-red);
-margin-left: 0.25rem;
-font-weight: 700;
-}
+.required { color: var(--error-red); margin-left: 0.25rem; font-weight: 700; }
 
-input[type="text"],
-input[type="email"],
-textarea {
-width: 100%;
-padding: 1rem 1.25rem;
-font-size: 1.05rem;
-font-family: 'Outfit', sans-serif;
-border: 2px solid #e2e8f0;
-border-radius: 10px;
-transition: all 0.3s ease;
-background: #fafbfc;
+input[type="text"], input[type="email"], textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1.05rem;
+  font-family: 'Outfit', sans-serif;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  background: #fafbfc;
 }
 
 textarea {
-resize: vertical;
-min-height: 120px;
-line-height: 1.6;
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-textarea:focus {
-outline: none;
-border-color: var(--goline-teal);
-background: white;
-box-shadow: 0 0 0 4px rgba(13, 149, 168, 0.1);
-transform: translateY(-1px);
+input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+  outline: none;
+  border-color: var(--goline-teal);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(13, 149, 168, 0.1);
+  transform: translateY(-1px);
 }
 
-input.error {
-border-color: var(--error-red);
-background: #fef2f2;
-}
-
-input.error:focus {
-box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
-}
+input.error { border-color: var(--error-red); background: #fef2f2; }
+input.error:focus { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1); }
 
 .error-message {
-color: var(--error-red);
-font-size: 0.9rem;
-margin-top: 0.5rem;
-display: none;
-font-weight: 500;
+  color: var(--error-red);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  display: none;
+  font-weight: 500;
 }
+.error-message.show { display: block; animation: shake 0.4s ease; }
 
-.error-message.show {
-display: block;
-animation: shake 0.4s ease;
-}
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-.input-row {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 1rem;
-}
-
-.checkbox-group {
-display: grid;
-gap: 1rem;
-margin-top: 0.5rem;
-}
-
-.checkbox-group.error {
-animation: shake 0.4s ease;
-}
+.checkbox-group { display: grid; gap: 1rem; margin-top: 0.5rem; }
+.checkbox-group.error { animation: shake 0.4s ease; }
 
 .checkbox-item {
-display: flex;
-align-items: center;
-padding: 1.125rem 1.25rem;
-background: #fafbfc;
-border: 2px solid #e2e8f0;
-border-radius: 10px;
-cursor: pointer;
-transition: all 0.3s ease;
-position: relative;
+  display: flex;
+  align-items: center;
+  padding: 1.125rem 1.25rem;
+  background: #fafbfc;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-
-.checkbox-item:hover {
-border-color: var(--goline-teal);
-background: white;
-transform: translateX(4px);
-}
+.checkbox-item:hover { border-color: var(--goline-teal); background: white; transform: translateX(4px); }
 
 .checkbox-item input[type="checkbox"] {
-width: 22px;
-height: 22px;
-margin-right: 1rem;
-cursor: pointer;
-accent-color: var(--goline-teal);
+  width: 22px; height: 22px;
+  margin-right: 1rem;
+  cursor: pointer;
+  accent-color: var(--goline-teal);
 }
+.checkbox-item label { margin: 0; cursor: pointer; font-size: 1rem; flex: 1; }
+.checkbox-item input:checked + label { font-weight: 600; }
+.checkbox-item:has(input:checked) { background: rgba(13, 149, 168, 0.05); border-color: var(--goline-teal); }
 
-.checkbox-item label {
-margin: 0;
-cursor: pointer;
-font-size: 1rem;
-flex: 1;
-}
+.helper-text { font-size: 0.95rem; color: #64748b; margin-bottom: 1rem; font-weight: 400; }
 
-.checkbox-item input:checked + label {
-font-weight: 600;
-}
+.report-inputs { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
 
-.checkbox-item:has(input:checked) {
-background: rgba(13, 149, 168, 0.05);
-border-color: var(--goline-teal);
-}
-
-.helper-text {
-font-size: 0.95rem;
-color: #64748b;
-margin-bottom: 1rem;
-font-weight: 400;
-}
-
-.report-inputs {
-display: flex;
-flex-direction: column;
-gap: 1rem;
-margin-top: 1rem;
-}
-
-.report-input-wrapper {
-display: flex;
-align-items: center;
-gap: 1rem;
-}
+.report-input-wrapper { display: flex; align-items: center; gap: 1rem; }
 
 .report-number {
-display: inline-flex;
-align-items: center;
-justify-content: center;
-min-width: 36px;
-height: 36px;
-background: var(--goline-teal);
-color: white;
-border-radius: 8px;
-font-weight: 700;
-font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px; height: 36px;
+  background: var(--goline-teal);
+  color: white;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
 }
 
-.report-input {
-flex: 1;
-}
+.report-input { flex: 1; }
 
-.submit-section {
-margin-top: 3rem;
-text-align: center;
-}
+.submit-section { margin-top: 3rem; text-align: center; }
 
 .submit-section button {
-background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
-color: white;
-border: none;
-padding: 1.25rem 3.5rem;
-font-size: 1.1rem;
-font-weight: 600;
-border-radius: 12px;
-cursor: pointer;
-transition: all 0.3s ease;
-box-shadow: var(--shadow-medium);
-font-family: 'Outfit', sans-serif;
+  background: linear-gradient(135deg, var(--goline-teal) 0%, var(--goline-accent) 100%);
+  color: white;
+  border: none;
+  padding: 1.25rem 3.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-medium);
+  font-family: 'Outfit', sans-serif;
 }
-
-.submit-section button:hover {
-transform: translateY(-2px);
-box-shadow: var(--shadow-strong);
-}
-
-.submit-section button:disabled {
-background: #cbd5e1;
-cursor: not-allowed;
-transform: none;
-}
+.submit-section button:hover { transform: translateY(-2px); box-shadow: var(--shadow-strong); }
+.submit-section button:disabled { background: #cbd5e1; cursor: not-allowed; transform: none; }
 
 .validation-summary {
-background: #fef2f2;
-border: 2px solid var(--error-red);
-border-radius: 12px;
-padding: 1.5rem;
-margin-bottom: 2rem;
-display: none;
+  background: #fef2f2;
+  border: 2px solid var(--error-red);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: none;
 }
-
-.validation-summary.show {
-display: block;
-animation: shake 0.4s ease;
-}
-
-.validation-summary h3 {
-color: var(--error-red);
-font-size: 1.1rem;
-margin-bottom: 1rem;
-}
-
-.validation-summary ul {
-list-style: none;
-padding-left: 0;
-}
-
-.validation-summary li {
-color: var(--error-red);
-font-weight: 500;
-padding: 0.5rem 0;
-}
-
-.validation-summary li::before {
-content: "⚠️ ";
-margin-right: 0.5rem;
-}
+.validation-summary.show { display: block; animation: shake 0.4s ease; }
+.validation-summary h3 { color: var(--error-red); font-size: 1.1rem; margin-bottom: 1rem; }
+.validation-summary ul { list-style: none; padding-left: 0; }
+.validation-summary li { color: var(--error-red); font-weight: 500; padding: 0.5rem 0; }
+.validation-summary li::before { content: "⚠️ "; margin-right: 0.5rem; }
 
 .success-message {
-background: white;
-border-radius: 20px;
-padding: 4rem 3rem;
-box-shadow: var(--shadow-strong);
-text-align: center;
-display: none;
-animation: fadeInUp 0.8s ease;
+  background: white;
+  border-radius: 20px;
+  padding: 4rem 3rem;
+  box-shadow: var(--shadow-strong);
+  text-align: center;
+  display: none;
+  animation: fadeInUp 0.8s ease;
 }
+.success-message h2 { color: #10b981; font-size: 2rem; margin-bottom: 1.5rem; }
+.success-message p { color: #64748b; font-size: 1.2rem; line-height: 1.8; }
 
-.success-message h2 {
-color: #10b981;
-font-size: 2rem;
-margin-bottom: 1.5rem;
-}
-
-.success-message p {
-color: #64748b;
-font-size: 1.2rem;
-line-height: 1.8;
-}
+/* ── LANGUAGE TRANSITION ── */
+.lang-fade { transition: opacity 0.25s ease; }
+.lang-fade.switching { opacity: 0; }
 
 @keyframes fadeInDown {
-from {
-opacity: 0;
-transform: translateY(-20px);
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
-
 @keyframes fadeInUp {
-from {
-opacity: 0;
-transform: translateY(20px);
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-to {
-opacity: 1;
-transform: translateY(0);
-}
-}
-
 @keyframes slideIn {
-from {
-opacity: 0;
-transform: translateX(-20px);
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
-to {
-opacity: 1;
-transform: translateX(0);
-}
-}
-
 @keyframes shake {
-0%, 100% { transform: translateX(0); }
-25% { transform: translateX(-10px); }
-75% { transform: translateX(10px); }
+  0%, 100% { transform: translateX(0); }
+  25%       { transform: translateX(-10px); }
+  75%       { transform: translateX(10px); }
 }
 
 @media (max-width: 768px) {
-body {
-padding: 1rem 0.5rem;
-}
-
-.form-card {
-padding: 2rem 1.5rem;
-}
-
-h1 {
-font-size: 1.5rem;
-}
-
-.subtitle {
-font-size: 1rem;
-}
-
-.input-row {
-grid-template-columns: 1fr;
-}
-
-.submit-section button {
-width: 100%;
-}
+  body { padding: 1rem 0.5rem; }
+  .form-card { padding: 2rem 1.5rem; }
+  h1 { font-size: 1.5rem; }
+  .subtitle { font-size: 1rem; }
+  .input-row { grid-template-columns: 1fr; }
+  .submit-section button { width: 100%; }
+  .lang-btn { padding: 0.5rem 1rem; font-size: 0.82rem; }
 }
 </style>
 </head>
 <body>
 <div class="container">
-<div class="header">
-<div class="logo-container">
-<h1>📊 QlikView-Berichtsfragebogen</h1>
-<p class="subtitle">Goline IT Services – Migration zu Power BI</p>
-</div>
-<div class="server-status" id="serverStatus">✓ Mit Server verbunden</div>
-</div>
 
-<div class="form-card" id="formCard">
-<div class="validation-summary" id="validationSummary">
-<h3>⚠️ Bitte füllen Sie die Pflichtfelder aus</h3>
-<ul id="validationList"></ul>
-</div>
+  <!-- LANGUAGE SWITCHER -->
+  <div class="lang-switcher">
+    <div class="lang-switcher-inner">
+      <button class="lang-btn active" id="btnIT" onclick="setLang('it')">
+        <span class="flag">🇮🇹</span> Italiano
+      </button>
+      <button class="lang-btn" id="btnDE" onclick="setLang('de')">
+        <span class="flag">🇩🇪</span> Deutsch
+      </button>
+    </div>
+  </div>
 
-<form id="reportForm">
-<div class="form-section">
-<div class="section-title">
-<span class="section-number">1</span>
-Persönliche Daten
-</div>
-<div class="input-row">
-<div>
-<input type="text" id="nome" name="nome" placeholder="Vorname" required>
-<div class="error-message" id="nomeError">Bitte geben Sie Ihren Vornamen ein</div>
-</div>
-<div>
-<input type="text" id="cognome" name="cognome" placeholder="Nachname" required>
-<div class="error-message" id="cognomeError">Bitte geben Sie Ihren Nachnamen ein</div>
-</div>
-</div>
-</div>
+  <!-- HEADER -->
+  <div class="header lang-fade">
+    <div class="logo-container">
+      <h1 id="t-title">📊 Questionario Report QlikView</h1>
+      <p class="subtitle">Goline IT Services - <span id="t-subtitle">Migrazione a Power BI</span></p>
+    </div>
+    <div class="server-status" id="serverStatus">✓ <span id="t-server-ok">Server Connesso</span></div>
+  </div>
 
-<div class="form-section">
-<div class="section-title">
-<span class="section-number">2</span>
-Kontakt
-</div>
-<input type="email" id="email" name="email" placeholder="E-Mail-Adresse" required>
-<div class="error-message" id="emailError">Bitte geben Sie eine gültige E-Mail-Adresse ein</div>
-</div>
+  <!-- FORM CARD -->
+  <div class="form-card lang-fade" id="formCard">
+    <div class="validation-summary" id="validationSummary">
+      <h3 id="t-val-title">⚠️ Compila i campi obbligatori</h3>
+      <ul id="validationList"></ul>
+    </div>
 
-<div class="form-section">
-<div class="section-title">
-<span class="section-number">3</span>
-Zuständige Abteilungen
-</div>
-<label>Wählen Sie die Abteilung(en) aus, für die Sie diesen Fragebogen ausfüllen <span class="required">*</span></label>
-<p class="helper-text">Sie können mehrere Abteilungen auswählen, falls nötig. Mindestens eine Abteilung ist erforderlich.</p>
-<div class="checkbox-group" id="repartiGroup">
-<div class="checkbox-item">
-<input type="checkbox" id="dispo-bag" name="reparti" value="Dispo BAG">
-<label for="dispo-bag">Dispo BAG</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="dispo-pf" name="reparti" value="Dispo PF">
-<label for="dispo-pf">Dispo PF</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="management-qualita" name="reparti" value="Qualitätsmanagement">
-<label for="management-qualita">Qualitätsmanagement</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="acquisti-vendite" name="reparti" value="Einkauf/Verkauf">
-<label for="acquisti-vendite">Einkauf/Verkauf</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="direzione" name="reparti" value="Geschäftsführung">
-<label for="direzione">Geschäftsführung</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="logistica-trasporti" name="reparti" value="Logistik/Transport">
-<label for="logistica-trasporti">Logistik/Transport</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="prepack" name="reparti" value="Prepack">
-<label for="prepack">Prepack</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="controllo-merci" name="reparti" value="Wareneingangskontrolle">
-<label for="controllo-merci">Wareneingangskontrolle</label>
-</div>
-<div class="checkbox-item">
-<input type="checkbox" id="amministrazione" name="reparti" value="Verwaltung">
-<label for="amministrazione">Verwaltung</label>
-</div>
-</div>
-<div class="error-message" id="repartiError">Bitte wählen Sie mindestens eine Abteilung aus</div>
-</div>
+    <form id="reportForm">
 
-<div class="form-section">
-<div class="section-title">
-<span class="section-number">4</span>
-Top 5 QlikView-Berichte
-</div>
-<label>Geben Sie die 5 meistgenutzten QlikView-Berichte Ihrer Abteilung an <span class="required">*</span></label>
-<p class="helper-text">Listen Sie die QlikView-Berichte nach Wichtigkeit oder Nutzungshäufigkeit auf. Diese Berichte werden bei der Migration zu Power BI priorisiert. Mindestens der erste Bericht ist Pflicht.</p>
-<div class="report-inputs" id="reportInputs">
-<div class="report-input-wrapper">
-<span class="report-number">#1</span>
-<input type="text" id="report1" name="report1" class="report-input" placeholder="Name des wichtigsten oder meistgenutzten Berichts" required>
-</div>
-<div class="report-input-wrapper">
-<span class="report-number">#2</span>
-<input type="text" id="report2" name="report2" class="report-input" placeholder="Name des zweiten Berichts">
-</div>
-<div class="report-input-wrapper">
-<span class="report-number">#3</span>
-<input type="text" id="report3" name="report3" class="report-input" placeholder="Name des dritten Berichts">
-</div>
-<div class="report-input-wrapper">
-<span class="report-number">#4</span>
-<input type="text" id="report4" name="report4" class="report-input" placeholder="Name des vierten Berichts">
-</div>
-<div class="report-input-wrapper">
-<span class="report-number">#5</span>
-<input type="text" id="report5" name="report5" class="report-input" placeholder="Name des fünften Berichts">
-</div>
-</div>
-<div class="error-message" id="reportsError">Bitte geben Sie mindestens den ersten Bericht ein</div>
-</div>
+      <!-- SECTION 1 – Dati personali -->
+      <div class="form-section">
+        <div class="section-title">
+          <span class="section-number">1</span>
+          <span id="t-sec1">Informazioni Personali</span>
+        </div>
+        <div class="input-row">
+          <div>
+            <input type="text" id="nome" name="nome" placeholder="Nome" required>
+            <div class="error-message" id="nomeError" data-it="Inserisci il tuo nome" data-de="Bitte geben Sie Ihren Vornamen ein">Inserisci il tuo nome</div>
+          </div>
+          <div>
+            <input type="text" id="cognome" name="cognome" placeholder="Cognome" required>
+            <div class="error-message" id="cognomeError" data-it="Inserisci il tuo cognome" data-de="Bitte geben Sie Ihren Nachnamen ein">Inserisci il tuo cognome</div>
+          </div>
+        </div>
+      </div>
 
-<div class="form-section">
-<div class="section-title">
-<span class="section-number">5</span>
-Anmerkungen und Probleme
-</div>
-<label for="note">Zusätzliche Anmerkungen (optional)</label>
-<p class="helper-text">Melden Sie etwaige Probleme, Schwierigkeiten oder spezifische Anforderungen zu den aktuellen QlikView-Berichten, die bei der Migration zu Power BI verbessert werden sollen.</p>
-<textarea id="note" name="note" rows="6" placeholder="Z. B.: Bericht X ist langsam, Bericht Y hat nicht immer aktuelle Daten, Bericht Z ist komplex in der Nutzung..."></textarea>
-</div>
+      <!-- SECTION 2 – Contatto -->
+      <div class="form-section">
+        <div class="section-title">
+          <span class="section-number">2</span>
+          <span id="t-sec2">Contatto</span>
+        </div>
+        <input type="email" id="email" name="email" placeholder="Email" required>
+        <div class="error-message" id="emailError" data-it="Inserisci un'email valida" data-de="Bitte geben Sie eine gültige E-Mail-Adresse ein">Inserisci un'email valida</div>
+      </div>
 
-<div class="submit-section">
-<button type="submit">Fragebogen absenden</button>
-</div>
-</form>
-</div>
+      <!-- SECTION 3 – Reparti -->
+      <div class="form-section">
+        <div class="section-title">
+          <span class="section-number">3</span>
+          <span id="t-sec3">Reparti di Competenza</span>
+        </div>
+        <label id="t-dept-label">Seleziona i reparti di cui sei responsabile o per cui compili questo questionario <span class="required">*</span></label>
+        <p class="helper-text" id="t-dept-helper">Puoi selezionare più reparti se necessario. Almeno un reparto è obbligatorio.</p>
+        <div class="checkbox-group" id="repartiGroup">
+          <div class="checkbox-item">
+            <input type="checkbox" id="dispo-bag" name="reparti" value="Dispo BAG">
+            <label for="dispo-bag">Dispo BAG</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="dispo-pf" name="reparti" value="Dispo PF">
+            <label for="dispo-pf">Dispo PF</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="management-qualita" name="reparti" value="Management di Qualità">
+            <label for="management-qualita" data-it="Management di Qualità" data-de="Qualitätsmanagement">Management di Qualità</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="acquisti-vendite" name="reparti" value="Acquisti/Vendite">
+            <label for="acquisti-vendite" data-it="Acquisti/Vendite" data-de="Einkauf/Verkauf">Acquisti/Vendite</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="direzione" name="reparti" value="Direzione">
+            <label for="direzione" data-it="Direzione" data-de="Geschäftsführung">Direzione</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="logistica-trasporti" name="reparti" value="Logistica/Trasporti">
+            <label for="logistica-trasporti" data-it="Logistica/Trasporti" data-de="Logistik/Transport">Logistica/Trasporti</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="prepack" name="reparti" value="Prepack">
+            <label for="prepack">Prepack</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="controllo-merci" name="reparti" value="Controllo entrata merci">
+            <label for="controllo-merci" data-it="Controllo entrata merci" data-de="Wareneingangskontrolle">Controllo entrata merci</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amministrazione" name="reparti" value="Amministrazione">
+            <label for="amministrazione" data-it="Amministrazione" data-de="Verwaltung">Amministrazione</label>
+          </div>
+        </div>
+        <div class="error-message" id="repartiError" data-it="Seleziona almeno un reparto" data-de="Bitte wählen Sie mindestens eine Abteilung aus">Seleziona almeno un reparto</div>
+      </div>
 
-<div class="success-message" id="successMessage">
-<h2>✓ Fragebogen erfolgreich gesendet!</h2>
-<p>Vielen Dank für das Ausfüllen des Fragebogens. Ihre Antworten wurden korrekt in Excel gespeichert.</p>
-</div>
+      <!-- SECTION 4 – Report -->
+      <div class="form-section">
+        <div class="section-title">
+          <span class="section-number">4</span>
+          <span id="t-sec4">Top 5 Report QlikView</span>
+        </div>
+        <label id="t-rep-label">Indica i 5 report QlikView più utilizzati nel tuo reparto <span class="required">*</span></label>
+        <p class="helper-text" id="t-rep-helper">Elenca i report QlikView in ordine di importanza o frequenza d'uso. Questi report verranno prioritizzati nella migrazione a Power BI. È obbligatorio indicare almeno il primo report.</p>
+        <div class="report-inputs" id="reportInputs">
+          <div class="report-input-wrapper">
+            <span class="report-number">#1</span>
+            <input type="text" id="report1" name="report1" class="report-input" data-it="Nome del report più importante o utilizzato" data-de="Name des wichtigsten oder meistgenutzten Berichts" placeholder="Nome del report più importante o utilizzato" required>
+          </div>
+          <div class="report-input-wrapper">
+            <span class="report-number">#2</span>
+            <input type="text" id="report2" name="report2" class="report-input" data-it="Nome del secondo report" data-de="Name des zweiten Berichts" placeholder="Nome del secondo report">
+          </div>
+          <div class="report-input-wrapper">
+            <span class="report-number">#3</span>
+            <input type="text" id="report3" name="report3" class="report-input" data-it="Nome del terzo report" data-de="Name des dritten Berichts" placeholder="Nome del terzo report">
+          </div>
+          <div class="report-input-wrapper">
+            <span class="report-number">#4</span>
+            <input type="text" id="report4" name="report4" class="report-input" data-it="Nome del quarto report" data-de="Name des vierten Berichts" placeholder="Nome del quarto report">
+          </div>
+          <div class="report-input-wrapper">
+            <span class="report-number">#5</span>
+            <input type="text" id="report5" name="report5" class="report-input" data-it="Nome del quinto report" data-de="Name des fünften Berichts" placeholder="Nome del quinto report">
+          </div>
+        </div>
+        <div class="error-message" id="reportsError" data-it="Inserisci almeno il primo report" data-de="Bitte geben Sie mindestens den ersten Bericht ein">Inserisci almeno il primo report</div>
+      </div>
+
+      <!-- SECTION 5 – Note -->
+      <div class="form-section">
+        <div class="section-title">
+          <span class="section-number">5</span>
+          <span id="t-sec5">Note e Problemi</span>
+        </div>
+        <label for="note" id="t-note-label">Note aggiuntive (opzionale)</label>
+        <p class="helper-text" id="t-note-helper">Segnala eventuali problemi, difficoltà o necessità specifiche riguardo ai report QlikView attuali che vorresti vedere migliorati nella migrazione a Power BI.</p>
+        <textarea id="note" name="note" rows="6" data-it="Es: Il report X è lento, il report Y ha dati non sempre aggiornati, il report Z è complesso da utilizzare..." data-de="Z. B.: Bericht X ist langsam, Bericht Y hat nicht immer aktuelle Daten, Bericht Z ist komplex in der Nutzung..." placeholder="Es: Il report X è lento, il report Y ha dati non sempre aggiornati, il report Z è complesso da utilizzare..."></textarea>
+      </div>
+
+      <div class="submit-section">
+        <button type="submit" id="t-submit">Invia Questionario</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-message lang-fade" id="successMessage">
+    <h2 id="t-success-title">✓ Questionario Inviato con Successo!</h2>
+    <p id="t-success-body">Grazie per aver completato il questionario. Le tue risposte sono state registrate correttamente in Excel.</p>
+  </div>
+
 </div>
 
 <script>
-const form = document.getElementById('reportForm');
-const formCard = document.getElementById('formCard');
-const successMessage = document.getElementById('successMessage');
-const validationSummary = document.getElementById('validationSummary');
-const validationList = document.getElementById('validationList');
-const serverStatus = document.getElementById('serverStatus');
+/* ════════════════════════════════════
+   TRANSLATIONS
+   ════════════════════════════════════ */
+const TRANSLATIONS = {
+  it: {
+    pageTitle:      'Questionario Report QlikView - Goline IT Services',
+    title:          '📊 Questionario Report QlikView',
+    subtitle:       'Migrazione a Power BI',
+    serverOk:       'Server Connesso',
+    serverOff:      'Server Offline',
+    valTitle:       '⚠️ Compila i campi obbligatori',
+    sec1:           'Informazioni Personali',
+    sec2:           'Contatto',
+    sec3:           'Reparti di Competenza',
+    sec4:           'Top 5 Report QlikView',
+    sec5:           'Note e Problemi',
+    deptLabel:      'Seleziona i reparti di cui sei responsabile o per cui compili questo questionario',
+    deptHelper:     "Puoi selezionare più reparti se necessario. Almeno un reparto è obbligatorio.",
+    repLabel:       'Indica i 5 report QlikView più utilizzati nel tuo reparto',
+    repHelper:      "Elenca i report QlikView in ordine di importanza o frequenza d'uso. Questi report verranno prioritizzati nella migrazione a Power BI. È obbligatorio indicare almeno il primo report.",
+    noteLabel:      'Note aggiuntive (opzionale)',
+    noteHelper:     'Segnala eventuali problemi, difficoltà o necessità specifiche riguardo ai report QlikView attuali che vorresti vedere migliorati nella migrazione a Power BI.',
+    submit:         'Invia Questionario',
+    submitting:     'Invio in corso...',
+    nomePH:         'Nome',
+    cognomePH:      'Cognome',
+    emailPH:        'Email',
+    successTitle:   '✓ Questionario Inviato con Successo!',
+    successBody:    'Grazie per aver completato il questionario. Le tue risposte sono state registrate correttamente in Excel.',
+    errNome:        'Inserisci il tuo nome',
+    errCognome:     'Inserisci il tuo cognome',
+    errEmail:       "Inserisci un'email valida",
+    errReparti:     'Seleziona almeno un reparto',
+    errReport:      'Inserisci almeno il primo report',
+    alertVal:       'Errore validazione:\n',
+    alertConn:      'Errore di connessione al server!\n\nAssicurati che il server Python sia avviato.',
+  },
+  de: {
+    pageTitle:      'QlikView-Bericht Fragebogen - Goline IT Services',
+    title:          '📊 QlikView-Bericht Fragebogen',
+    subtitle:       'Migration zu Power BI',
+    serverOk:       'Server verbunden',
+    serverOff:      'Server offline',
+    valTitle:       '⚠️ Bitte füllen Sie die Pflichtfelder aus',
+    sec1:           'Persönliche Daten',
+    sec2:           'Kontakt',
+    sec3:           'Zuständige Abteilungen',
+    sec4:           'Top 5 QlikView-Berichte',
+    sec5:           'Anmerkungen und Probleme',
+    deptLabel:      'Wählen Sie die Abteilung(en) aus, für die Sie diesen Fragebogen ausfüllen',
+    deptHelper:     'Sie können mehrere Abteilungen auswählen, falls nötig. Mindestens eine Abteilung ist erforderlich.',
+    repLabel:       'Geben Sie die 5 meistgenutzten QlikView-Berichte Ihrer Abteilung an',
+    repHelper:      'Listen Sie die QlikView-Berichte nach Wichtigkeit oder Nutzungshäufigkeit auf. Diese Berichte werden bei der Migration zu Power BI priorisiert. Mindestens der erste Bericht ist Pflicht.',
+    noteLabel:      'Zusätzliche Anmerkungen (optional)',
+    noteHelper:     'Melden Sie etwaige Probleme, Schwierigkeiten oder spezifische Anforderungen zu den aktuellen QlikView-Berichten, die bei der Migration zu Power BI verbessert werden sollen.',
+    submit:         'Fragebogen absenden',
+    submitting:     'Wird gesendet...',
+    nomePH:         'Vorname',
+    cognomePH:      'Nachname',
+    emailPH:        'E-Mail-Adresse',
+    successTitle:   '✓ Fragebogen erfolgreich gesendet!',
+    successBody:    'Vielen Dank für das Ausfüllen des Fragebogens. Ihre Antworten wurden korrekt in Excel gespeichert.',
+    errNome:        'Bitte geben Sie Ihren Vornamen ein',
+    errCognome:     'Bitte geben Sie Ihren Nachnamen ein',
+    errEmail:       'Bitte geben Sie eine gültige E-Mail-Adresse ein',
+    errReparti:     'Bitte wählen Sie mindestens eine Abteilung aus',
+    errReport:      'Bitte geben Sie mindestens den ersten Bericht ein',
+    alertVal:       'Validierungsfehler:\n',
+    alertConn:      'Verbindungsfehler zum Server!\n\nBitte stellen Sie sicher, dass der Python-Server gestartet ist.',
+  }
+};
 
-// Serverstatus beim Start prüfen
+let currentLang = 'it';
+
+function setLang(lang) {
+  if (lang === currentLang) return;
+  currentLang = lang;
+
+  // Button states
+  document.getElementById('btnIT').classList.toggle('active', lang === 'it');
+  document.getElementById('btnDE').classList.toggle('active', lang === 'de');
+
+  // Fade transition
+  document.querySelectorAll('.lang-fade').forEach(el => el.classList.add('switching'));
+
+  setTimeout(() => {
+    applyTranslations(lang);
+    document.querySelectorAll('.lang-fade').forEach(el => el.classList.remove('switching'));
+  }, 250);
+}
+
+function applyTranslations(lang) {
+  const T = TRANSLATIONS[lang];
+  document.documentElement.lang = lang;
+  document.title = T.pageTitle;
+
+  document.getElementById('t-title').textContent        = T.title;
+  document.getElementById('t-subtitle').textContent     = T.subtitle;
+  document.getElementById('t-server-ok').textContent    = serverOnline ? T.serverOk : T.serverOff;
+  document.getElementById('t-val-title').textContent    = T.valTitle;
+  document.getElementById('t-sec1').textContent         = T.sec1;
+  document.getElementById('t-sec2').textContent         = T.sec2;
+  document.getElementById('t-sec3').textContent         = T.sec3;
+  document.getElementById('t-sec4').textContent         = T.sec4;
+  document.getElementById('t-sec5').textContent         = T.sec5;
+  document.getElementById('t-submit').textContent       = T.submit;
+  document.getElementById('t-success-title').textContent = T.successTitle;
+  document.getElementById('t-success-body').textContent  = T.successBody;
+
+  // Labels with required star
+  document.getElementById('t-dept-label').innerHTML  = T.deptLabel + ' <span class="required">*</span>';
+  document.getElementById('t-rep-label').innerHTML   = T.repLabel  + ' <span class="required">*</span>';
+  document.getElementById('t-note-label').textContent = T.noteLabel;
+
+  document.getElementById('t-dept-helper').textContent = T.deptHelper;
+  document.getElementById('t-rep-helper').textContent  = T.repHelper;
+  document.getElementById('t-note-helper').textContent = T.noteHelper;
+
+  // Inputs placeholders
+  document.getElementById('nome').placeholder    = T.nomePH;
+  document.getElementById('cognome').placeholder = T.cognomePH;
+  document.getElementById('email').placeholder   = T.emailPH;
+
+  // Report inputs placeholders via data attributes
+  document.querySelectorAll('[data-it]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = val;
+      } else {
+        el.textContent = val;
+      }
+    }
+  });
+
+  // Error messages
+  document.getElementById('nomeError').textContent    = T.errNome;
+  document.getElementById('cognomeError').textContent = T.errCognome;
+  document.getElementById('emailError').textContent   = T.errEmail;
+  document.getElementById('repartiError').textContent = T.errReparti;
+  document.getElementById('reportsError').textContent = T.errReport;
+}
+
+/* ════════════════════════════════════
+   SERVER STATUS
+   ════════════════════════════════════ */
+let serverOnline = true;
+const serverStatusEl = document.getElementById('serverStatus');
+
 async function checkServerStatus() {
-try {
-const response = await fetch('/api/health');
-const data = await response.json();
-if (data.status === 'ok') {
-serverStatus.textContent = '✓ Mit Server verbunden';
-serverStatus.classList.remove('offline');
-} else {
-throw new Error('Server antwortet nicht');
+  try {
+    const response = await fetch('/api/health');
+    const data = await response.json();
+    if (data.status === 'ok') {
+      serverOnline = true;
+      serverStatusEl.innerHTML = '✓ <span id="t-server-ok">' + TRANSLATIONS[currentLang].serverOk + '</span>';
+      serverStatusEl.classList.remove('offline');
+    } else { throw new Error(); }
+  } catch {
+    serverOnline = false;
+    serverStatusEl.innerHTML = '✗ <span id="t-server-ok">' + TRANSLATIONS[currentLang].serverOff + '</span>';
+    serverStatusEl.classList.add('offline');
+  }
 }
-} catch (error) {
-serverStatus.textContent = '✗ Server offline';
-serverStatus.classList.add('offline');
-console.error('Verbindungsfehler zum Server:', error);
-}
-}
-
 checkServerStatus();
 
-// Fehler entfernen, wenn der Benutzer zu tippen beginnt
-document.getElementById('nome').addEventListener('input', function() {
-this.classList.remove('error');
-document.getElementById('nomeError').classList.remove('show');
-});
+/* ════════════════════════════════════
+   FORM VALIDATION & SUBMIT
+   ════════════════════════════════════ */
+const form            = document.getElementById('reportForm');
+const formCard        = document.getElementById('formCard');
+const successMessage  = document.getElementById('successMessage');
+const validationSummary = document.getElementById('validationSummary');
+const validationList  = document.getElementById('validationList');
 
-document.getElementById('cognome').addEventListener('input', function() {
-this.classList.remove('error');
-document.getElementById('cognomeError').classList.remove('show');
-});
-
-document.getElementById('email').addEventListener('input', function() {
-this.classList.remove('error');
-document.getElementById('emailError').classList.remove('show');
+// Clear errors on input
+['nome','cognome','email'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('error');
+    document.getElementById(id + 'Error').classList.remove('show');
+  });
 });
 
 document.getElementById('report1').addEventListener('input', function() {
-document.getElementById('reportInputs').classList.remove('error');
-document.getElementById('reportsError').classList.remove('show');
+  document.getElementById('reportInputs').classList.remove('error');
+  document.getElementById('reportsError').classList.remove('show');
 });
 
-document.querySelectorAll('input[name="reparti"]').forEach(checkbox => {
-checkbox.addEventListener('change', function() {
-document.getElementById('repartiGroup').classList.remove('error');
-document.getElementById('repartiError').classList.remove('show');
-});
+document.querySelectorAll('input[name="reparti"]').forEach(cb => {
+  cb.addEventListener('change', function() {
+    document.getElementById('repartiGroup').classList.remove('error');
+    document.getElementById('repartiError').classList.remove('show');
+  });
 });
 
 form.addEventListener('submit', async function(e) {
-e.preventDefault();
+  e.preventDefault();
+  const T = TRANSLATIONS[currentLang];
 
-// Fehler zurücksetzen
-validationSummary.classList.remove('show');
-validationList.innerHTML = '';
-document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
-document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+  // Reset
+  validationSummary.classList.remove('show');
+  validationList.innerHTML = '';
+  document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+  document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
 
-const errors = [];
+  const errors = [];
 
-// Vorname validieren
-const nome = document.getElementById('nome').value.trim();
-if (!nome) {
-errors.push('Vorname ist erforderlich');
-document.getElementById('nome').classList.add('error');
-document.getElementById('nomeError').classList.add('show');
-}
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) {
+    errors.push(T.nomePH);
+    document.getElementById('nome').classList.add('error');
+    document.getElementById('nomeError').classList.add('show');
+  }
 
-// Nachname validieren
-const cognome = document.getElementById('cognome').value.trim();
-if (!cognome) {
-errors.push('Nachname ist erforderlich');
-document.getElementById('cognome').classList.add('error');
-document.getElementById('cognomeError').classList.add('show');
-}
+  const cognome = document.getElementById('cognome').value.trim();
+  if (!cognome) {
+    errors.push(T.cognomePH);
+    document.getElementById('cognome').classList.add('error');
+    document.getElementById('cognomeError').classList.add('show');
+  }
 
-// E-Mail validieren
-const email = document.getElementById('email').value.trim();
-const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
-if (!email || !emailRegex.test(email)) {
-errors.push('Gültige E-Mail-Adresse ist erforderlich');
-document.getElementById('email').classList.add('error');
-document.getElementById('emailError').classList.add('show');
-}
+  const email = document.getElementById('email').value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!email || !emailRegex.test(email)) {
+    errors.push(T.emailPH);
+    document.getElementById('email').classList.add('error');
+    document.getElementById('emailError').classList.add('show');
+  }
 
-// Abteilungen validieren
-const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
-if (checkboxes.length === 0) {
-errors.push('Mindestens eine Abteilung ist erforderlich');
-document.getElementById('repartiGroup').classList.add('error');
-document.getElementById('repartiError').classList.add('show');
-}
+  const checkboxes = document.querySelectorAll('input[name="reparti"]:checked');
+  if (checkboxes.length === 0) {
+    errors.push(T.sec3);
+    document.getElementById('repartiGroup').classList.add('error');
+    document.getElementById('repartiError').classList.add('show');
+  }
 
-// Berichte validieren
-const report1 = document.getElementById('report1').value.trim();
-if (!report1) {
-errors.push('Mindestens der erste Bericht ist erforderlich');
-document.getElementById('reportInputs').classList.add('error');
-document.getElementById('reportsError').classList.add('show');
-}
+  const report1 = document.getElementById('report1').value.trim();
+  if (!report1) {
+    errors.push(T.sec4);
+    document.getElementById('reportInputs').classList.add('error');
+    document.getElementById('reportsError').classList.add('show');
+  }
 
-// Wenn Fehler vorhanden, Zusammenfassung anzeigen
-if (errors.length > 0) {
-errors.forEach(error => {
-const li = document.createElement('li');
-li.textContent = error;
-validationList.appendChild(li);
-});
-validationSummary.classList.add('show');
-window.scrollTo({ top: 0, behavior: 'smooth' });
-return;
-}
+  if (errors.length > 0) {
+    errors.forEach(err => {
+      const li = document.createElement('li');
+      li.textContent = err;
+      validationList.appendChild(li);
+    });
+    validationSummary.classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
 
-// Formulardaten sammeln
-const formData = {
-nome: nome,
-cognome: cognome,
-email: email,
-reparti: Array.from(checkboxes).map(cb => cb.value),
-reports: [
-document.getElementById('report1').value.trim(),
-document.getElementById('report2').value.trim(),
-document.getElementById('report3').value.trim(),
-document.getElementById('report4').value.trim(),
-document.getElementById('report5').value.trim()
-],
-note: document.getElementById('note').value.trim(),
-timestamp: new Date().toISOString()
-};
+  const formData = {
+    nome, cognome, email,
+    reparti: Array.from(checkboxes).map(cb => cb.value),
+    reports: [1,2,3,4,5].map(i => document.getElementById('report'+i).value.trim()),
+    note: document.getElementById('note').value.trim(),
+    lang: currentLang,
+    timestamp: new Date().toISOString()
+  };
 
-// Schaltfläche deaktivieren
-const submitButton = form.querySelector('button[type="submit"]');
-submitButton.disabled = true;
-submitButton.textContent = 'Wird gesendet...';
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = T.submitting;
 
-try {
-const response = await fetch('/api/questionario', {
-method: 'POST',
-headers: {
-'Content-Type': 'application/json',
-},
-body: JSON.stringify(formData)
-});
+  try {
+    const response = await fetch('/api/questionario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    const result = await response.json();
 
-const result = await response.json();
-
-if (result.status === 'success') {
-console.log('✓ Daten in Excel gespeichert!', result);
-formCard.style.display = 'none';
-successMessage.style.display = 'block';
-window.scrollTo({ top: 0, behavior: 'smooth' });
-} else {
-console.error('Validierungsfehler:', result.errors);
-alert('Validierungsfehler:\\n' + result.errors.join('\\n'));
-submitButton.disabled = false;
-submitButton.textContent = 'Fragebogen absenden';
-}
-} catch (error) {
-console.error('Sendefehler:', error);
-alert('Verbindungsfehler zum Server!\\n\\nBitte stellen Sie sicher, dass der Python-Server gestartet ist.');
-submitButton.disabled = false;
-submitButton.textContent = 'Fragebogen absenden';
-}
+    if (result.status === 'success') {
+      formCard.style.display = 'none';
+      successMessage.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      alert(T.alertVal + result.errors.join('\n'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = T.submit;
+    }
+  } catch {
+    alert(T.alertConn);
+    submitBtn.disabled = false;
+    submitBtn.textContent = T.submit;
+  }
 });
 
-// Klick auf Checkbox-Elemente verwalten
+// Checkbox item click delegation
 document.querySelectorAll('.checkbox-item').forEach(item => {
-item.addEventListener('click', function(e) {
-if (e.target.tagName !== 'INPUT') {
-const checkbox = this.querySelector('input[type="checkbox"]');
-checkbox.checked = !checkbox.checked;
-checkbox.dispatchEvent(new Event('change'));
-}
-});
+  item.addEventListener('click', function(e) {
+    if (e.target.tagName !== 'INPUT') {
+      const cb = this.querySelector('input[type="checkbox"]');
+      cb.checked = !cb.checked;
+      cb.dispatchEvent(new Event('change'));
+    }
+  });
 });
 </script>
 </body>
 </html>
-"""
